@@ -1,0 +1,94 @@
+{
+	"name": "SANC_EST_MAN_massive_process_catalog",
+	"codFamily": "SANC",
+	"family": "Sancions",
+	"codSubFamily": "ESTMAN",
+	"subfamily": "Estandard Manual",
+	"version": "1.02",
+	"created": "22/07/2024",
+	"security": {
+		"userId": "",
+		"userCredentials": ""
+	},
+	"loadSchemas": [],
+	"loadConfigProcess": [],
+	"predefinedSearchs": [],
+	"downloadSchemas": [],
+	"downloadConfigProcess": [],
+	"downloadUpdateModel": [],
+	"csvSchemas":[		{
+            "name" : "modelo_CSV_SANC_EST_MAN_MOD",
+            "title" : "Modelo CSV modificació expedientes Estandar Manual v1",
+            "version" : "1.00",
+            "defaultScopes" : [
+                "senseAmbits"
+            ],
+            "validityStartDate" : "01/01/2000",
+            "validityEndDate" : "31/12/2100",
+            "creationUser" : "admin",
+            "modifyUser" : "",
+            "created" : "22/07/2024",
+            "ftpPathIn" : "/SANC/EST_MAN/in",
+            "ftpPathOut" : "/SANC/EST_MAN/out",
+            "ftpPathDone" : "/SANC/EST_MAN/done",
+            "ftpPathProcess" : "/SANC/EST_MAN/process",
+            "operationType" : "MODIFICACION",
+            "model" : [
+                {
+                    "type" : "text",
+                    "name" : "transactionId",
+                    "description" : "ID operació Transacció",
+                    "validations" : {
+                        "required" : "true"
+                    }
+                },
+				{
+                    "type" : "text",
+                    "name" : "codExpedient",
+                    "description" : "Codi Expedient Tramitador",
+                    "validations" : {
+                        "required" : "true"
+                    }
+                }
+            ],
+            "values" : [
+
+            ]
+        },{
+            "name" : "modelo_CSV_SANC_EST_MAN_ALTA",
+            "title" : "Modelo CSV alta expedientes Estandar Manual v1",
+            "version" : "1.00",
+            "defaultScopes" : [
+                "senseAmbits"
+            ],
+            "validityStartDate" : "01/01/2000",
+            "validityEndDate" : "31/12/2100",
+            "creationUser" : "admin",
+            "modifyUser" : "",
+            "created" : "22/07/2024",
+            "ftpPathIn" : "/SANC/EST_MAN/in",
+            "ftpPathOut" : "/SANC/EST_MAN/out",
+            "ftpPathDone" : "/SANC/EST_MAN/done",
+            "ftpPathProcess" : "/SANC/EST_MAN/process",
+            "operationType" : "ALTA",
+            "model" : [
+                {
+                    "type" : "text",
+                    "name" : "transactionId",
+                    "description" : "ID operació Transacció",
+                    "validations" : {
+                        "required" : "true"
+                    }
+                },
+                {
+                    "type" : "text",
+                    "name" : "codiUnicDadesExpedient",
+                    "description" : "Codi Unic Dades Expedient"
+                }
+            ],
+            "values" : [
+
+            ]
+        }
+	]
+}

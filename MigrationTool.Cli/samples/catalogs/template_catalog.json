@@ -1,0 +1,483 @@
+{
+	"version": "0.08",
+	"family": "Sancions",
+	"subfamily": "Estandard Manual",
+	"catalog": [
+		{
+			"id": 1,
+			"name": "Plantilla acord inici",
+			"description": "Plantilla acord inici",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Acord d'inici estàndard",
+					"psdgId": "TSANC_STD_ACORD_INICI"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Acord d'inici estàndard castellà",
+					"psdgId": "TSANC_STD_ACORD_INICI_CAS"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"name": "Plantilla notificació de l'acord d'inici",
+			"description": "Plantilla notificació de l'acord d'inici",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació Acord d'inici estàndard",
+					"psdgId": "TSANC_STD_NOTI_ACORD_INICI"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació Acord d'inici estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_ACORD_INICI_CAS"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"name": "Plantilla ofici de l'acord d'inici",
+			"description": "Plantilla ofici de l'acord d'inici",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Infografia procediment sancionador estàndard",
+					"psdgId": "TSANC_STD_INFOGRAFIA"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Infografia procediment sancionador estàndard castellà",
+					"psdgId": "TSANC_STD_INFOGRAFIA_CAS"
+				}
+			]
+		},
+		{
+			"id": 4,
+			"name": "Plantilla Resolució",
+			"description": "Plantilla Resolució",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Resolució sancionadora estàndard",
+					"psdgId": "TSANC_STD_RESOLUCIO"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Resolució sancionadora estàndard castellà",
+					"psdgId": "TSANC_STD_RESOLUCIO_CAS"
+				}
+			]
+		},
+		{
+			"id": 5,
+			"name": "Plantilles Gestió Documents",
+			"description": "Plantilles Gestió Documents",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Plantilla proves margefields 1",
+					"psdgId": "TSANC_PROVES"
+				},
+				{
+					"id": "Template 2",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Plantilla proves margefields 2",
+					"psdgId": "TSANC_PROVES_2"
+				},
+				{
+					"id": "Template 3",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Plantilla proves margefields 3",
+					"psdgId": "TSANC_PROVES_3"
+				},
+				{
+					"id": "Template 4",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Plantilla proves margefields 4",
+					"psdgId": "TSANC_PROVES_4"
+				},
+				{
+					"id": "Template 5",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Plantilla proves margefields 5",
+					"psdgId": "TSANC_PROVES_5"
+				},
+				{
+					"id": "Template 6",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Anunci diaris oficials estàndard català",
+					"psdgId": "TSANC_STD_ANUNCI_CAT"
+				},
+				{
+					"id": "Template 7",
+					"language": "es",
+					"languageId": 2,
+					"label": "Anunci diaris oficials estàndard castellà",
+					"psdgId": "TSANC_STD_ANUNCI_CAS"
+				},
+				{
+					"id": "Template 8",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Acord d'inici estàndard",
+					"psdgId": "TSANC_STD_ACORD_INICI"
+				},
+				{
+					"id": "Template 9",
+					"language": "ca",
+					"languageId": 2,
+					"label": "Acord d'inici estàndard castellà",
+					"psdgId": "TSANC_STD_ACORD_INICI_CAS"
+				},
+				{
+					"id": "Template 10",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació Acord d'inici estàndard",
+					"psdgId": "TSANC_STD_NOTI_ACORD_INICI"
+				},
+				{
+					"id": "Template 11",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació Acord d'inici estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_ACORD_INICI_CAS"
+				},
+				{
+					"id": "Template 12",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Infografia procediment sancionador estàndard",
+					"psdgId": "TSANC_STD_INFOGRAFIA"
+				},
+				{
+					"id": "Template 13",
+					"language": "es",
+					"languageId": 2,
+					"label": "Infografia procediment sancionador estàndard castellà",
+					"psdgId": "TSANC_STD_INFOGRAFIA_CAS"
+				},
+				{
+					"id": "Template 14",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Resolució sancionadora estàndard",
+					"psdgId": "TSANC_STD_RESOLUCIO"
+				},
+				{
+					"id": "Template 15",
+					"language": "es",
+					"languageId": 2,
+					"label": "Resolució sancionadora estàndard castellà",
+					"psdgId": "TSANC_STD_RESOLUCIO_CAS"
+				},
+				{
+					"id": "Template 16",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació Resolució  sancionadora estàndard",
+					"psdgId": "TSANC_STD_NOTI_RESOLUCIO"
+				},
+				{
+					"id": "Template 17",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació Resolució sancionadora estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_RESOLUCIO_CAS"
+				},
+				{
+					"id": "Template 18",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Proposta resolució estàndard",
+					"psdgId": "TSANC_STD_PROPOSTA_RESO"
+				},
+				{
+					"id": "Template 19",
+					"language": "es",
+					"languageId": 2,
+					"label": "Proposta resolució estàndard castellà",
+					"psdgId": "TSANC_STD_PROPOSTA_RESO_CAS"
+				},
+				{
+					"id": "Template 20",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació Proposta resolució estàndard",
+					"psdgId": "TSANC_STD_NOTI_PROPOSTA_RESO"
+				},
+				{
+					"id": "Template 21",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació Proposta resolució estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_PROPOSTA_RESO_CAS"
+				},
+				{
+					"id": "Template 22",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Informe de recurs estàndard",
+					"psdgId": "TSANC_STD_INFORME_RECURS"
+				},
+				{
+					"id": "Template 23",
+					"language": "es",
+					"languageId": 2,
+					"label": "Informe de recurs estàndard castellà",
+					"psdgId": "TSANC_STD_INFORME_RECURS_CAS"
+				},
+				{
+					"id": "Template 24",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació de la resolució del recurs estàndard",
+					"psdgId": "TSANC_STD_NOTI_RESOLUCIO_RECURS"
+				},
+				{
+					"id": "Template 25",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació de la resolució del recurs estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_RESOLUCIO_RECURS_CAS"
+				},
+				{
+					"id": "Template 26",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Resolució recurs estàndard",
+					"psdgId": "TSANC_STD_RESOLUCIO_RECURS"
+				},
+				{
+					"id": "Template 27",
+					"language": "es",
+					"languageId": 2,
+					"label": "Resolució recurs estàndard castellà",
+					"psdgId": "TSANC_STD_RESOLUCIO_RECURS_CAS"
+				},
+				{
+					"id": "Template 28",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació carta pagament amb reducció estàndard",
+					"psdgId": "TSANC_STD_NOTI_CARTA_PAGAMENT_REDUCCIO"
+				},
+				{
+					"id": "Template 29",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació carta pagament amb reducció estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_CARTA_PAGAMENT_REDUCCIO_CAS"
+				},
+				{
+					"id": "Template 30",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Anunci diaris oficials estàndard català",
+					"psdgId": "TSANC_STD_ANUNCI_CAT"
+				},
+				{
+					"id": "Template 31",
+					"language": "es",
+					"languageId": 2,
+					"label": "Anunci diaris oficials estàndard castellà",
+					"psdgId": "TSANC_STD_ANUNCI_CAS"
+				}
+			]
+		},
+		{
+			"id": 6,
+			"name": "Plantillas Resolucio",
+			"description": "Plantillas Resolucio",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació Resolució sancionadora estàndard",
+					"psdgId": "TSANC_STD_NOTI_RESOLUCIO"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació Resolució sancionadora estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_RESOLUCIO_CAS"
+				}
+			]
+		},
+		{
+			"id": 7,
+			"name": "Plantillas Proposta de Resolucio",
+			"description": "Plantillas Proposta de Resolucio",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Proposta resolució estàndard",
+					"psdgId": "TSANC_STD_PROPOSTA_RESO"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Proposta resolució estàndard castellà",
+					"psdgId": "TSANC_STD_PROPOSTA_RESO_CAS"
+				}
+			]
+		},
+		{
+			"id": 8,
+			"name": "Plantilla Document de notificació de la proposta de resolució",
+			"description": "Plantilla Document de notificació de la proposta de resolució",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació Proposta resolució estàndard",
+					"psdgId": "TSANC_STD_NOTI_PROPOSTA_RESO"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació Proposta resolució estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_PROPOSTA_RESO_CAS"
+				}
+			]
+		},
+		{
+			"id": 9,
+			"name": "ResolucioRecurs",
+			"description": "ResolucioRecurs",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Informe de recurs estàndard",
+					"psdgId": "TSANC_STD_INFORME_RECURS"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Informe de recurs estàndard castellà",
+					"psdgId": "TSANC_STD_INFORME_RECURS_CAS"
+				}
+			]
+		},
+		{
+			"id": 10,
+			"name": "ResolucioRecursNotificacio",
+			"description": "ResolucioRecursNotificacio",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació de la resolució del recurs estàndard",
+					"psdgId": "TSANC_STD_NOTI_RESOLUCIO_RECURS"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació de la resolució del recurs estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_RESOLUCIO_RECURS_CAS"
+				}
+			]
+		},
+		{
+			"id": 11,
+			"name": "ResolucioRecursResolucio",
+			"description": "ResolucioRecursResolucio",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Resolució recurs estàndard",
+					"psdgId": "TSANC_STD_RESOLUCIO_RECURS"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Resolució recurs estàndard castellà",
+					"psdgId": "TSANC_STD_RESOLUCIO_RECURS_CAS"
+				}
+			]
+		},
+		{
+			"id": 12,
+			"name": "CartaPagament",
+			"description": "CartaPagament",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Notificació carta pagament amb reducció estàndard",
+					"psdgId": "TSANC_STD_NOTI_CARTA_PAGAMENT_REDUCCIO"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Notificació carta pagament amb reducció estàndard castellà",
+					"psdgId": "TSANC_STD_NOTI_CARTA_PAGAMENT_REDUCCIO_CAS"
+				}
+			]
+		},
+		{
+			"id": 13,
+			"name": "Plantilles anuncis",
+			"description": "Plantilles anuncis",
+			"templates": [
+				{
+					"id": "Template 1",
+					"language": "ca",
+					"languageId": 0,
+					"label": "Anunci diaris oficials estàndard català",
+					"psdgId": "TSANC_STD_ANUNCI_CAT"
+				},
+				{
+					"id": "Template 2",
+					"language": "es",
+					"languageId": 2,
+					"label": "Anunci diaris oficials estàndard castellà",
+					"psdgId": "TSANC_STD_ANUNCI_CAS"
+				}
+			]
+		}
+	]
+}

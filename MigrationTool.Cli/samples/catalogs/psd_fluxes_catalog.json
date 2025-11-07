@@ -1,0 +1,56 @@
+{
+    "version": "0.05",
+    "family": "Sancions",
+    "subfamily": "Estandard Manual",
+    "catalog":[
+        {
+            "id":1,
+            "title" : "PJSMNBUPDC",
+            "userGroups" : [],
+            "signatureConfig" : "\"Oriol Sans Estrada\" [oriol.sans@gencat.cat] [CTTI]",
+            "ambitGroups" : []
+        },
+		{
+            "id":2,
+            "title" : "I9S30Y7QDE",
+            "userGroups" : [],
+            "signatureConfig" : "\"Persona Fictícia\" [persona.ficticia@outlook.com] [Default]",
+            "ambitGroups" : []
+        },
+		{
+            "id":3,
+            "title" : "TLTU8JIAGG",
+            "userGroups" : [],
+            "signatureConfig" : "Montse VP; David signa",
+            "ambitGroups" : []
+        },
+		{
+            "id":4,
+            "title" : "PCEBAT9NRL",
+            "userGroups" : [],
+            "signatureConfig" : "David VP; Montse signa",
+            "ambitGroups" : []
+        },
+		{
+            "id":5,
+            "title" : "WVPXKXPP71",
+            "userGroups" : [],
+            "signatureConfig" : "Montse Pericot signa",
+            "ambitGroups" : []
+        },
+		{
+            "id":6,
+            "title" : "NIYYANMHV1",
+            "userGroups" : [],
+            "signatureConfig" : "David Garcia signa",
+            "ambitGroups" : []
+        },
+		{
+            "id":7,
+            "title" : "BH0R0CDQPK",
+            "userGroups" : [],
+            "signatureConfig" : "Laura Conde signa",
+            "ambitGroups" : []
+        }
+    ]
+}

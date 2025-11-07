@@ -8,11 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="samples\input.json" />
+    <None Remove="samples\attributes_catalog.json" />
+    <None Remove="samples\configuration.json" />
+    <None Remove="samples\reference_data_catalog.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="samples\input.json">
+    <Content Include="samples\catalogs\attributes_catalog.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="samples\catalogs\configuration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="samples\configuration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="samples\catalogs\reference_data_catalog.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

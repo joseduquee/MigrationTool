@@ -1,0 +1,8312 @@
+{
+	"version": "0.37",
+	"family": "Sancions",
+	"subfamily": "Estandard Manual",
+	"attributeCatalog": [
+		{
+			"id": 9001,
+			"type": "text",
+			"name": "gravetatInfraccioCalculadaCast",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "concat",
+				"target": "gravetatInfraccioCast",
+				"source": [
+					"gravetatInfraccioCalculadaCast"
+				]
+			},
+			"dependencies": {
+				"listPriority": {
+					"priority": [
+						"Leve",
+						"Grave",
+						"Muy Grave"
+					],
+					"list": "infraccionsList=gravetatInfraccioCast"
+				}
+			}
+		},
+		{
+			"id": 9000,
+			"type": "text",
+			"name": "gravetatInfraccioMaximaCalculadaCast",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"listPriority": {
+					"priority": [
+						"Muy Grave",
+						"Grave",
+						"Leve"
+					],
+					"list": "infraccionsList=gravetatInfraccioCast"
+				}
+			}
+		},
+		{
+			"id": 4101,
+			"type": "text",
+			"name": "equipInstructor$instructorNomenat",
+			"validations": []
+		},
+		{
+			"id": 4100,
+			"type": "select",
+			"name": "activarDocsPresentats",
+			"referenceData": "docsPresentats",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 217,
+			"type": "text",
+			"name": "adrecaFets$georeferencia$X",
+			"validations": []
+		},
+		{
+			"id": 218,
+			"type": "text",
+			"name": "adrecaFets$georeferencia$Y",
+			"validations": []
+		},
+		{
+			"id": 5920,
+			"type": "boolean",
+			"name": "organismeEACAT",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=3"
+				]
+			}
+		},
+		{
+			"id": 5921,
+			"type": "masterData-v2",
+			"name": "raoSocialEACAT",
+			"validations": [],
+			"attributes": [
+				588,
+				6202
+			],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=3",
+					"organismeEACAT=true"
+				],
+				"required": [
+					"organismeEACAT=true"
+				]
+			},
+			"master": {
+				"column": "raoSocialEACAT",
+				"table": "organisme"
+			},
+			"decorator": {
+				"rule": "consolidable",
+				"target": "raoSocial"
+			}
+		},
+		{
+			"id": 6202,
+			"type": "text",
+			"name": "codiIne10",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=3"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			},
+			"master": {
+				"column": "codiIne10",
+				"table": "organisme",
+				"involvedFields": [
+					"raoSocialEACAT"
+				]
+			}
+		},
+		{
+			"id": 6041,
+			"type": "boolean",
+			"name": "adreca$municipiEACAT",
+			"validations": [],
+			"referenceData": "municipis",
+			"validations": [],
+			"dependencies": {		
+				"visibility": [
+					"organismeEACAT=true"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 9041,
+			"type": "boolean",
+			"name": "adreca$comarcaEACAT",
+			"validations": [],
+			"referenceData": "comarques",
+			"validations": [],
+			"dependencies": {
+				"disabled": [
+					"organismeEACAT=false"
+				],
+				"visibility": [
+					"organismeEACAT=true"
+				]
+			}
+		},
+		{
+			"id": 6031,
+			"type": "boolean",
+			"name": "adreca$provinciaEACAT",
+			"referenceData": "provincies",
+			"dependencies": {
+				"disabled": [
+					"organismeEACAT=false"
+				],
+				"visibility": [
+					"organismeEACAT=true"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 6021,
+			"type": "text",
+			"name": "adreca$codiPostalEACAT",
+			"referenceData": "codisPostals",
+			"dependencies": {
+				"disabled": [
+					"organismeEACAT=false"
+				],
+				"visibility": [
+					"organismeEACAT=true"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 5500,
+			"name": "escollirResolucioPropostaResolucio$seleccio",
+			"type": "boolean",
+			"referenceData": "llistaProcedimentRef",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 40,
+			"type": "document3",
+			"documentId": 20,
+			"name": "documents",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 110501,
+			"type": "text",
+			"name": "notificacio$estatGeneralCodi",
+			"validations": []
+		},
+		{
+			"id": 110502,
+			"type": "text",
+			"name": "notificacio$estatGeneralLabel",
+			"validations": []
+		},
+		{
+			"id": 2270,
+			"type": "boolean",
+			"name": "tipusRecurs",
+			"referenceData": "tipusRecursAltresRecursos",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 57421,
+			"type": "data",
+			"name": "resolucio$oficiNotificacio$data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 57422,
+			"type": "text",
+			"name": "resolucio$oficiNotificacio$dataLectura",
+			"validations": []
+		},
+		{
+			"id": 57423,
+			"type": "text",
+			"name": "resolucio$oficiNotificacio$observacions",
+			"validations": []
+		},
+		{
+			"id": 57424,
+			"type": "document3",
+			"documentId": 33,
+			"name": "resolucio$docNotificacioResol",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 57430,
+			"type": "data",
+			"name": "resolucio$oficiNotificacio$data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 57431,
+			"type": "text",
+			"name": "resolucio$oficiNotificacio$dataLectura",
+			"validations": []
+		},
+		{
+			"id": 57432,
+			"type": "text",
+			"name": "resolucio$oficiNotificacio$observacions",
+			"validations": []
+		},
+		{
+			"id": 57433,
+			"type": "document3",
+			"documentId": 280,
+			"name": "resolucio$docNotificacioResol",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 2390,
+			"type": "document3",
+			"name": "documentNotificacio",
+			"multiple": true,
+			"documentId": 260,
+			"validations": []
+		},
+		{
+			"id": 110503,
+			"type": "text",
+			"name": "notificacio$codiRegistre",
+			"validations": []
+		},
+		{
+			"id": 110504,
+			"type": "data",
+			"name": "notificacio$dataRegistre",
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			},
+			"validations": []
+		},
+		{
+			"id": 110505,
+			"type": "data",
+			"name": "notificacio$dataDarreraActualitzacio",
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			},
+			"validations": []
+		},
+		{
+			"id": 110506,
+			"type": "text",
+			"name": "notificacio$eletronicaEstatCodi",
+			"validations": []
+		},
+		{
+			"id": 110507,
+			"type": "text",
+			"name": "notificacio$eletronicaEstatLabel",
+			"validations": []
+		},
+		{
+			"id": 110508,
+			"type": "text",
+			"name": "notificacio$electronicaMotiu",
+			"validations": []
+		},
+		{
+			"id": 110509,
+			"type": "data",
+			"name": "notificacio$electronicaEstatData",
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			},
+			"validations": []
+		},
+		{
+			"id": 110510,
+			"type": "text",
+			"name": "notificacio$postalEstatCodi",
+			"validations": []
+		},
+		{
+			"id": 110511,
+			"type": "text",
+			"name": "notificacio$postalEstatLabel",
+			"validations": []
+		},
+		{
+			"id": 110512,
+			"type": "data",
+			"name": "notificacio$postalEstatData",
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			},
+			"validations": []
+		},
+		{
+			"id": 110513,
+			"type": "text",
+			"name": "notificacio$postalMotiuCodi",
+			"validations": []
+		},
+		{
+			"id": 110514,
+			"type": "text",
+			"name": "notificacio$postalMotiuLabel",
+			"validations": []
+		},
+		{
+			"id": 110515,
+			"type": "data",
+			"name": "notificacio$PublicacioDogcData",
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			},
+			"validations": []
+		},
+		{
+			"id": 110516,
+			"type": "data",
+			"name": "notificacio$PublicacioBoeData",
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			},
+			"validations": []
+		},
+		{
+			"id": 110517,
+			"type": "text",
+			"name": "notificacio$transaccioFinalitzadora",
+			"validations": []
+		},
+		{
+			"id": 110001,
+			"type": "text",
+			"name": "nomDepartament",
+			"validations": []
+		},
+		{
+			"id": 110002,
+			"type": "text",
+			"name": "adrecaDepartament",
+			"validations": []
+		},
+		{
+			"id": 6112,
+			"type": "text",
+			"name": "requerimientDocumentacioReconeixement$documentStatus",
+			"validations": []
+		},
+		{
+			"id": 110003,
+			"type": "text",
+			"name": "codiPostalDepartament",
+			"validations": []
+		},
+		{
+			"id": 110004,
+			"type": "text",
+			"name": "poblacioDepartament",
+			"validations": []
+		},
+		{
+			"id": 43,
+			"type": "document3",
+			"name": "recursos$docsPresentats",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 60061,
+			"type": "recursos",
+			"name": "recursos",
+			"attributes": [
+				220,
+				221,
+				222,
+				223,
+				224,
+				225,
+				226,
+				227,
+				229,
+				230,
+				231,
+				232,
+				234,
+				239,
+				236,
+				237,
+				238,
+				240,
+				241,
+				242,
+				243,
+				244,
+				30475,
+				2345
+			],
+			"multiple": "true",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 99000,
+			"type": "Alegacions",
+			"name": "alegacionsProposta",
+			"attributes": [
+				302,
+				303,
+				50,
+				3070,
+				310,
+				3009,
+				313,
+				30470,
+				30471,
+				30140,
+				5056,
+				3015
+			],
+			"multiple": "true",
+			"validations": []
+		},
+		{
+			"id": 42,
+			"type": "document3",
+			"name": "alegacionsProposta$docsPresentats",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 110005,
+			"type": "text",
+			"name": "telefonDepartament",
+			"validations": []
+		},
+		{
+			"id": 110100,
+			"type": "text",
+			"name": "usuarisAssignats",
+			"validations": []
+		},
+		{
+			"id": 100000,
+			"type": "data",
+			"name": "acordInici$notificacio$dataPractica",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 100001,
+			"type": "text",
+			"name": "acordInici$notificacio$dataPracticaLectura",
+			"validations": []
+		},
+		{
+			"id": 100002,
+			"type": "text",
+			"name": "resolucio$notificacio$dataPracticaLectura",
+			"validations": []
+		},
+		{
+			"id": 100010,
+			"type": "data",
+			"name": "resolucio$notificacio$dataPractica",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 100005,
+			"type": "text",
+			"name": "resolucioRecurs$notificacio$dataPracticaLectura",
+			"validations": []
+		},
+		{
+			"id": 100011,
+			"type": "data",
+			"name": "resolucioRecurs$notificacio$dataPractica",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 100003,
+			"type": "data",
+			"name": "propostaResolucio$notificacio$dataPractica",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 100004,
+			"type": "text",
+			"name": "propostaResolucio$notificacio$dataPracticaLectura",
+			"validations": []
+		},
+		{
+			"id": 41,
+			"type": "document3",
+			"name": "alegacions$docsPresentats",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 30404,
+			"name": "alegacions$alegacionsRevisades",
+			"type": "select",
+			"referenceData": "alegacionsRevisades",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 30406,
+			"type": "document3",
+			"name": "alegacions$documentAlegacioRelacionada",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 3015,
+			"type": "text",
+			"name": "canalEntradaAlegacions",
+			"referenceData": "canalEntradaRecurs",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 5055,
+			"type": "text",
+			"name": "motivacioAlegacions",
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 30470,
+			"type": "boolean",
+			"name": "presentadorAlegacions",
+			"referenceData": "partsInteressades",
+			"validations": []
+		},
+		{
+			"id": 30471,
+			"type": "boolean",
+			"name": "partsInteressades",
+			"referenceData": "partsInteressades",
+			"validations": []
+		},
+		{
+			"id": 30410,
+			"name": "alegacionsProposta$alegacionsRevisades",
+			"type": "select",
+			"referenceData": "alegacionsRevisades",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 30140,
+			"type": "document3",
+			"name": "documentAlegacioProposta",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 10000,
+			"type": "text",
+			"name": "materiaSancionadoraCabecera",
+			"validations": []
+		},
+		{
+			"id": 500,
+			"type": "boolean",
+			"name": "estatExpedient",
+			"referenceData": "estatExpedient",
+			"validations": []
+		},
+		{
+			"id": 501,
+			"type": "data",
+			"name": "dataDarreraModificacio",
+			"validations": []
+		},
+		{
+			"id": 27,
+			"type": "text",
+			"name": "codExpedient",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1,
+			"type": "text",
+			"name": "titolExpedient",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"concatenate": {
+					"list": [
+						"infractor$00001$raoSocial",
+						"infractor$00001$primerCognom",
+						"infractor$00001$segonCognom",
+						"infractor$00001$nom"
+					],
+					"separator": " "
+				}
+			}
+		},
+		{
+			"id": 2,
+			"type": "data",
+			"name": "expedient$dataAltaExpedient",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2000,
+			"type": "data",
+			"name": "dataPrescripcioInfraccio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2001,
+			"type": "data",
+			"name": "dataPrescripcioSancio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2002,
+			"type": "text",
+			"name": "dataPrescripcioInfraccioLectura"
+		},
+		{
+			"id": 2003,
+			"type": "text",
+			"name": "dataPrescripcioSancioLectura"
+		},
+		{
+			"id": 8000,
+			"type": "data",
+			"name": "inspeccio$dataIniciControl",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 8001,
+			"type": "text",
+			"name": "inspeccio$nomPlaControl",
+			"validations": []
+		},
+		{
+			"id": 8002,
+			"type": "text",
+			"name": "inspeccio$nomCompareixent",
+			"validations": []
+		},
+		{
+			"id": 8003,
+			"type": "text",
+			"name": "inspeccio$qualitatCompareixent",
+			"validations": []
+		},
+		{
+			"id": 8004,
+			"type": "data",
+			"name": "informeTecnic$data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 800400,
+			"type": "text",
+			"name": "informeTecnic$dataLectura",
+			"validations": []
+		},
+		{
+			"id": 8005,
+			"type": "text",
+			"name": "informeTecnic$codi",
+			"validations": [
+				"maxlength=20"			
+			]
+		},
+		{
+			"id": 8006,
+			"type": "text",
+			"name": "informeTecnic$hora",
+			"validations": [
+				"maxlength=20"			
+			]
+		},
+		{
+			"id": 8007,
+			"type": "text",
+			"name": "informeTecnic$inspector",
+			"validations": []
+		},
+		{
+			"id": 8008,
+			"type": "text",
+			"name": "informeTecnic$observacions",
+			"validations": []
+		},
+		{
+			"id": 8009,
+			"type": "document3",
+			"multiple": true,
+			"name": "inspeccio$documents",
+			"validations": []
+		},
+		{
+			"id": 7,
+			"type": "data",
+			"name": "caducitatExpedientSancionador",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 7999,
+			"type": "text",
+			"name": "caducitatExpedientSancionadorLectura"
+		},
+		{
+			"id": 70000,
+			"type": "data",
+			"name": "acordInici$signatura$data",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"1=0"
+				],
+				"nestedCalculation": {
+					"field": "acordInici$documentAdjuntAcordInici",
+					"nestedField": "dataSignatura",
+					"formula": "naturals=0"
+				}
+			}
+		},
+		{
+			"id": 7001,
+			"type": "data",
+			"name": "prescripcioExpedientSancionadorGreu",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"gravetatInfraccioCalculada=Greu"
+				]
+			}
+		},
+		{
+			"id": 7002,
+			"type": "data",
+			"name": "prescripcioExpedientSancionadorMoltGreu",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"gravetatInfraccioCalculada=Molt greu"
+				]
+			}
+		},
+		{
+			"id": 3,
+			"type": "text",
+			"name": "materiaSancionadora",
+			"validations": []
+		},
+		{
+			"id": 4,
+			"name": "expedient$procedimentSimplificat",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 5,
+			"type": "boolean",
+			"name": "expedient$prioritari",
+			"validations": []
+		},
+		{
+			"id": 6,
+			"name": "expedient$iniciarProcedimentComplementari",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 800,
+			"type": "boolean",
+			"name": "expedient$tipusInici",
+			"referenceData": "tipusIniciExpedient",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"expedient$canalEntrada=1"
+				]
+			}
+		},
+		{
+			"id": 801,
+			"type": "boolean",
+			"name": "expedient$canalEntrada",
+			"referenceData": "canalEntradaExpedient",
+			"validations": []
+		},
+		{
+			"id": 6999,
+			"type": "data",
+			"name": "prescripcioExpedientSancionadorBuit",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"gravetatInfraccioCalculada=null"
+				]
+			}
+		},
+		{
+			"id": 7000,
+			"type": "data",
+			"name": "prescripcioExpedientSancionadorLleu",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"gravetatInfraccioCalculada=Lleu"
+				]
+			}
+		},
+		{
+			"id": 9,
+			"type": "data",
+			"name": "expedient$registreEntrada$data",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 10,
+			"type": "text",
+			"name": "expedient$registreEntrada$numero",
+			"validations": []
+		},
+		{
+			"id": 11,
+			"type": "text",
+			"name": "expedient$observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 999,
+			"type": "text",
+			"name": "status",
+			"validations": []
+		},
+		{
+			"id": 12,
+			"type": "data",
+			"name": "denuncia$dataAlta",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 12000,
+			"type": "text",
+			"name": "denuncia$dataAltaLectura",
+			"validations": []
+		},
+		{
+			"id": 13,
+			"type": "text",
+			"name": "denuncia$codi",
+			"validations": []
+		},
+		{
+			"id": 14,
+			"type": "data",
+			"name": "denuncia$dataFetsDenunciats",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 14000,
+			"type": "text",
+			"name": "dataFetsDenunciatsLectura",
+			"validations": []
+		},
+		{
+			"id": 15,
+			"type": "text",
+			"name": "denuncia$descripcioFets",
+			"decorator": {
+				"rule": "consolidable",
+				"target": "acordInici$motivacio"
+			},
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 34,
+			"type": "text",
+			"name": "inspeccio$urlDiligenciesPrevies",
+			"validations": []
+		},
+		{
+			"id": 35,
+			"type": "text",
+			"name": "inspeccio$referenciaDiligenciesPrevies",
+			"validations": []
+		},
+		{
+			"id": 210,
+			"type": "Adreça",
+			"name": "adrecaFets",
+			"attributes": [
+				204,
+				16,
+				17,
+				18,
+				19,
+				20,
+				21,
+				22,
+				23,
+				24,
+				26,
+				28,
+				29,
+				30,
+				31,
+				36
+			]
+		},
+		{
+			"id": 204,
+			"type": "text",
+			"name": "adrecaFets$urlFetsDenunciats",
+			"validations": []
+		},
+		{
+			"id": 16,
+			"type": "boolean",
+			"name": "adrecaFets$tipusVia",
+			"referenceData": "tipusVia",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 16000,
+			"type": "text",
+			"name": "adrecaFets$tipusViaLabel",
+			"validations": []
+		},
+		{
+			"id": 17,
+			"type": "text",
+			"name": "adrecaFets$nomVia",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 18,
+			"type": "text",
+			"name": "adrecaFets$numeroVia",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 19,
+			"type": "text",
+			"name": "adrecaFets$poligonIndustrial",
+			"validations": []
+		},
+		{
+			"id": 20,
+			"type": "text",
+			"name": "adrecaFets$nau",
+			"validations": []
+		},
+		{
+			"id": 21,
+			"type": "text",
+			"name": "adrecaFets$bloc",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 22,
+			"type": "text",
+			"name": "adrecaFets$escala",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 23,
+			"type": "text",
+			"name": "adrecaFets$pis",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 24,
+			"type": "text",
+			"name": "adrecaFets$porta",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"validations": []
+		},
+		{
+			"id": 26,
+			"type": "text",
+			"name": "adrecaFets$codiPostal",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"referenceData": "codisPostals",
+			"validations": [],
+			"dependencies": {
+				"binding": [
+					"adrecaFets$municipi"
+				],
+				"required": [
+					"adrecaFets$pais=108"
+				],
+				"disabled": [
+					"adrecaFets$municipi"
+				]
+			}
+		},
+		{
+			"id": 28,
+			"type": "boolean",
+			"name": "adrecaFets$provincia",
+			"referenceData": "provincies",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"validations": [],
+			"dependencies": {
+				"binding": [
+					"adrecaFets$municipi"
+				],
+				"referenceDataBinding": [
+					"municipis"
+				],
+				"disabled": [
+					"adrecaFets$municipi"
+				],
+				"required": [
+					"adrecaFets$pais=108"
+				]
+			}
+		},
+		{
+			"id": 280,
+			"type": "text",
+			"name": "adrecaFets$provinciaLabel",
+			"validations": []
+		},
+		{
+			"id": 29,
+			"type": "boolean",
+			"name": "adrecaFets$municipi",
+			"referenceData": "municipis",
+			"decorator": {
+				"rule": "concat",
+				"target": "adrecaFets$adrecaCompleta",
+				"source": [
+					"adrecaFets$tipusViaLabel",
+					"adrecaFets$nomVia",
+					"adrecaFets$numeroVia",
+					"adrecaFets$bloc",
+					"adrecaFets$escala",
+					"adrecaFets$pis",
+					"adrecaFets$porta",
+					"adrecaFets$codiPostal",
+					"adrecaFets$municipiLabel",
+					"adrecaFets$provinciaLabel"
+				]
+			},
+			"dependencies": {
+				"required": [
+					"adrecaFets$pais=108"
+				],
+				"binding": [
+					"adrecaFets$pais"
+				],
+				"disabled": [
+					"adrecaFets$pais"
+				]
+			}
+		},
+		{
+			"id": 290,
+			"type": "text",
+			"name": "adrecaFets$municipiLabel",
+			"validations": []
+		},
+		{
+			"id": 30,
+			"type": "boolean",
+			"name": "adrecaFets$pais",
+			"referenceData": "paisosIne",
+			"validations": []
+		},
+		{
+			"id": 300,
+			"type": "text",
+			"name": "adrecaFets$paisLabel",
+			"validations": []
+		},
+		{
+			"id": 31,
+			"type": "text",
+			"name": "adrecaFets$comentarisAdreca",
+			"validations": []
+		},
+		{
+			"id": 32,
+			"type": "text",
+			"name": "denuncia$observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 33,
+			"type": "document3",
+			"name": "denuncia$document",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 36,
+			"type": "boolean",
+			"name": "adrecaFets$comarca",
+			"referenceData": "comarques",
+			"validations": [],
+			"dependencies": {
+				"binding": [
+					"adrecaFets$municipi"
+				],
+				"referenceDataBinding": [
+					"municipis"
+				],
+				"disabled": [
+					"adrecaFets$municipi"
+				],
+				"required": [
+					"adrecaFets$pais=108"
+				]
+			}
+		},
+		{
+			"id": 1300,
+			"type": "text",
+			"name": "codiSectorFraus",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1301,
+			"type": "text",
+			"name": "sectorFraus",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1302,
+			"type": "text",
+			"name": "codiSectorMapa",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1303,
+			"type": "text",
+			"name": "sectorMapa",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1304,
+			"type": "data",
+			"name": "dataDeAnalitica",
+			"validations": []
+		},
+		{
+			"id": 1305,
+			"type": "boolean",
+			"name": "tipusControl",
+			"referenceData": "tipusControl",
+			"validations": []
+		},
+		{
+			"id": 1306,
+			"type": "numeric",
+			"name": "numeroControlsFets",
+			"validations": []
+		},
+		{
+			"id": 11305,
+			"type": "controls",
+			"name": "controls",
+			"attributes": [
+				1305,
+				1306
+			],
+			"multiple": "true",
+			"validations": []
+		},
+		{
+			"id": 1307,
+			"type": "numeric",
+			"name": "volumVendes",
+			"validations": []
+		},
+		{
+			"id": 1308,
+			"type": "numeric",
+			"name": "caducitatAccio",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1309,
+			"type": "text",
+			"name": "codiExpedientInspeccio",
+			"validations": []
+		},
+		{
+			"id": 54,
+			"type": "EquipInstructor",
+			"name": "equipInstructor",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				55,
+				56,
+				57,
+				58,
+				68,
+				59,
+				9060,
+				1055,
+				1056,
+				1057,
+				1058,
+				1068,
+				1059,
+				60,
+				61,
+				69,
+				62,
+				63,
+				64,
+				1060,
+				1061,
+				1069,
+				1062,
+				1063,
+				1064,
+				1065,
+				2060,
+				2061,
+				2062,
+				2063,
+				2064,
+				2065
+			]
+		},
+		{
+			"id": 55,
+			"type": "boolean",
+			"name": "instructor$nom",
+			"referenceData": "instructors",
+			"validations": [
+				"required"
+			],
+			"decoratorArray": [
+				{
+					"rule": "referenceData"
+				},
+				{
+					"rule":"consolidable",
+					"target": "equipInstructor$instructorNomenat"
+				}
+			]
+		},
+		{
+			"id": 87555,
+			"type": "text",
+			"name": "instructor$nomLabel",
+			"validations": []
+		},
+		{
+			"id": 68,
+			"type": "boolean",
+			"name": "instructor$instructorAnterior",
+			"referenceData": "instructors",
+			"validations": []
+		},
+		{
+			"id": 68000,
+			"type": "text",
+			"name": "instructor$instructorAnteriorLabel",
+			"validations": []
+		},
+		{
+			"id": 56,
+			"type": "data",
+			"name": "instructor$dataNomenament",
+			"validations": []
+		},
+		{
+			"id": 57,
+			"type": "data",
+			"name": "instructor$dataResposta",
+			"validations": []
+		},
+		{
+			"id": 58,
+			"name": "instructor$resposta",
+			"type": "boolean",
+			"referenceData": "respostaInstructor",
+			"validations": []
+		},
+		{
+			"id": 59,
+			"type": "text",
+			"name": "instructor$observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 9061,
+			"type": "document3",
+			"name": "instructor$document",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 9060,
+			"type": "document3",
+			"name": "secretari$document",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 1055,
+			"type": "boolean",
+			"name": "secretari$nom",
+			"referenceData": "secretaris",
+			"validations": []
+		},
+		{
+			"id": 102555,
+			"type": "text",
+			"name": "secretari$nomLabel",
+			"validations": []
+		},
+		{
+			"id": 1068,
+			"type": "boolean",
+			"name": "secretari$secretariAnterior",
+			"referenceData": "secretaris",
+			"validations": []
+		},
+		{
+			"id": 1056,
+			"type": "data",
+			"name": "secretari$dataNomenament",
+			"validations": []
+		},
+		{
+			"id": 1057,
+			"type": "data",
+			"name": "secretari$dataResposta",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 10570,
+			"type": "text",
+			"name": "secretari$dataRespostaLectura",
+			"validations": []
+		},
+		{
+			"id": 1058,
+			"name": "secretari$resposta",
+			"type": "boolean",
+			"referenceData": "respostaInstructor",
+			"validations": []
+		},
+		{
+			"id": 1059,
+			"type": "text",
+			"name": "secretari$observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 60,
+			"type": "boolean",
+			"referenceData": "instructors",
+			"name": "instructor$nomQueSAbste",
+			"validations": []
+		},
+		{
+			"id": 61,
+			"type": "boolean",
+			"referenceData": "motiuAbstencio",
+			"name": "instructor$motiuAbstencio",
+			"validations": []
+		},
+		{
+			"id": 69,
+			"type": "text",
+			"name": "instructor$justificacioAbstencio",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 62,
+			"type": "data",
+			"name": "instructor$dataResolucioSuperiorJerarquicAbstencio",
+			"validations": []
+		},
+		{
+			"id": 63,
+			"name": "instructor$sentitResolucioAbstencio",
+			"type": "boolean",
+			"validations": [],
+			"referenceData": "sentitResolucioAbtencio"
+		},
+		{
+			"id": 64,
+			"type": "text",
+			"name": "instructor$motivacioNoAcceptacioAbstencio",
+			"validations": [
+				"maxlength=1000"
+			],
+			"dependencies": {
+				"required": [
+					"instructor$sentitResolucioAbstencio=2"
+				]
+			}
+		},
+		{
+			"id": 1060,
+			"type": "boolean",
+			"referenceData": "secretaris",
+			"name": "secretari$nomQueSAbste",
+			"validations": []
+		},
+		{
+			"id": 1061,
+			"type": "boolean",
+			"referenceData": "motiuAbstencio",
+			"name": "secretari$motiuAbstencio",
+			"validations": []
+		},
+		{
+			"id": 1069,
+			"type": "text",
+			"name": "secretari$justificacioAbstencio",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 1062,
+			"type": "data",
+			"name": "secretari$dataResolucioSuperiorJerarquicAbstencio",
+			"validations": []
+		},
+		{
+			"id": 1063,
+			"name": "secretari$sentitResolucioAbstencio",
+			"type": "boolean",
+			"validations": [],
+			"referenceData": "sentitResolucioAbtencio"
+		},
+		{
+			"id": 1064,
+			"type": "text",
+			"name": "secretari$motivacioNoAcceptacioAbstencio",
+			"validations": [
+				"maxlength=1000"
+			],
+			"dependencies": {
+				"required": [
+					"secretari$sentitResolucioAbstencio=2"
+				]
+			}
+		},
+		{
+			"id": 1065,
+			"type": "document3",
+			"name": "secretari$documentAbstencio",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 1066,
+			"type": "document3",
+			"name": "instructor$documentAbstencio",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 2060,
+			"type": "boolean",
+			"referenceData": "instructors",
+			"name": "instructor$instructorRecusat",
+			"validations": []
+		},
+		{
+			"id": 2061,
+			"type": "boolean",
+			"referenceData": "motiuAbstencio",
+			"name": "instructor$motiuRecusacio",
+			"validations": []
+		},
+		{
+			"id": 2062,
+			"type": "data",
+			"name": "instructor$dataEscritResolucioRecusacio",
+			"validations": []
+		},
+		{
+			"id": 2063,
+			"type": "data",
+			"name": "instructor$dataResolucioRecusacio",
+			"validations": []
+		},
+		{
+			"id": 2064,
+			"name": "instructor$sentitResolucioRecusacio",
+			"type": "boolean",
+			"validations": [],
+			"referenceData": "sentitResolucioAbtencio"
+		},
+		{
+			"id": 2065,
+			"type": "document3",
+			"name": "instructor$documentRecusacio",
+			"multiple": true,
+			"validations": []
+		},{
+			"id": 2066,
+			"type": "boolean",
+			"referenceData": "secretaris",
+			"name": "secretari$secretariRecusat",
+			"validations": []
+		},
+		{
+			"id": 2067,
+			"type": "boolean",
+			"referenceData": "motiuAbstencio",
+			"name": "secretari$motiuRecusacio",
+			"validations": []
+		},
+		{
+			"id": 2068,
+			"type": "data",
+			"name": "secretari$dataEscritResolucioRecusacio",
+			"validations": []
+		},
+		{
+			"id": 2069,
+			"type": "data",
+			"name": "secretari$dataResolucioRecusacio",
+			"validations": []
+		},
+		{
+			"id": 2070,
+			"name": "secretari$sentitResolucioRecusacio",
+			"type": "boolean",
+			"validations": [],
+			"referenceData": "sentitResolucioAbtencio"
+		},
+		{
+			"id": 2071,
+			"type": "document3",
+			"name": "secretari$documentRecusacio",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 65,
+			"type": "data",
+			"name": "infraccio$data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 66,
+			"type": "data",
+			"name": "infraccio$dataIdentificacio",
+			"validations": []
+		},
+		{
+			"id": 67,
+			"type": "text",
+			"name": "ambit",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 5030,
+			"type": "InformeTecnic",
+			"name": "inspeccio",
+			"attributes": [
+				8004,
+				8005,
+				8006,
+				8007,
+				8008
+			],
+			"multiple": "true",
+			"validations": []
+		},
+		{
+			"id": 503,
+			"type": "Infraccio",
+			"name": "infraccionsList",
+			"attributes": [
+				5001,
+				5002,
+				5003,
+				5004,
+				5005,
+				5010,
+				5011,
+				5014,
+				516,
+				518,
+				519,
+				520,
+				521,
+				522,
+				523,
+				524,
+				525,
+				526,
+				527,
+				528,
+				529,
+				530,
+				531,
+				532,
+				5032,
+				50010,
+				50012,
+				50013,
+				50014,
+				50015,
+				50016
+			],
+			"multiple": "true",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 504,
+			"type": "numeric",
+			"name": "sancio$importTotalProposat",
+			"validations": [
+				"required",
+				"validateDecimal=2"
+			],
+			"dependencies": {
+				"addition": [
+					"infraccionsList=importProposatSancio"
+				]
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "resolucio$importSancio"
+				},
+				{
+					"rule": "consolidable",
+					"target": "sancio$importTotalProposatLectura"
+				},
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioImportTotalProposat"
+				}
+			]
+		},
+		{
+			"id": 50004,
+			"type": "numeric",
+			"name": "sancio$importTotalProposatLectura",
+			"validations": [
+				"required",
+				"validateDecimal=2"
+			]
+		},
+		{
+			"id": 50014,
+			"type": "numeric",
+			"name": "sancio$sumatorioImportTotalProposat",
+			"validations": [
+				"validateDecimal=2"
+			]
+		},
+		{
+			"id": 504100,
+			"type": "numeric",
+			"name": "sancio$importReduccioReconeixement",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat",
+						"sancio$percBonificacioReconeixement"
+					],
+					"formula": "sancio$importTotalProposat * sancio$percBonificacioReconeixement"
+				}
+			}
+		},
+		{
+			"id": 504200,
+			"type": "numeric",
+			"name": "sancio$importReduccioPagamentVoluntari",
+			"validations": [],
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat",
+						"sancio$percBonificacioPagamentAvancat"
+					],
+					"formula": "sancio$importTotalProposat*sancio$percBonificacioPagamentAvancat"
+				}
+			}
+		},
+		{
+			"id": 504300,
+			"type": "numeric",
+			"name": "sancio$importTotalReduit",
+			"validations": [
+				"validateDecimal=2"
+			],
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat",
+						"sancio$percBonificacioPagamentAvancat",
+						"sancio$percBonificacioReconeixement"
+					],
+					"formula": "sancio$importTotalProposat*(1-sancio$percBonificacioPagamentAvancat -sancio$percBonificacioReconeixement)"
+				}
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$importTotalReduitLectura"
+				}
+			]
+		},
+		{
+			"id": 504301,
+			"type": "text",
+			"name": "sancio$importTotalReduitLectura",
+			"validations": []
+		},
+		{
+			"id": 5051,
+			"type": "boolean",
+			"name": "gravetatEconomica",
+			"referenceData": "gravetat",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 50510,
+			"type": "text",
+			"name": "gravetatEconomicaLabel",
+			"validations": []
+		},
+		{
+			"id": 505,
+			"type": "text",
+			"name": "gravetatInfraccioCalculada",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "concat",
+				"target": "gravetatInfraccio",
+				"source": [
+					"gravetatInfraccioCalculada"
+				]
+			},
+			"dependencies": {
+				"listPriority": {
+					"priority": [
+						"Lleu",
+						"Greu",
+						"Molt greu"
+					],
+					"list": "infraccionsList=gravetatInfraccio"
+				}
+			}
+		},
+		{
+			"id": 5050,
+			"type": "text",
+			"name": "gravetatInfraccioMaximaCalculada",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"listPriority": {
+					"priority": [
+						"Molt greu",
+						"Greu",
+						"Lleu"
+					],
+					"list": "infraccionsList=gravetatInfraccio"
+				}
+			}
+		},
+		{
+			"id": 50005,
+			"type": "text",
+			"name": "gravetatInfraccioCalculadaLectura",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 5001,
+			"type": "boolean",
+			"name": "submateria",
+			"validations": [
+				"required"
+			],
+			"master": {
+				"column": "submateria",
+				"table": "barems_v2"
+			}
+		},
+		{
+			"id": 5002,
+			"type": "boolean",
+			"name": "agrupacioConductesInfractores",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"binding": [
+					"submateria"
+				],
+				"disabled": [
+					"submateria"
+				]
+			},
+			"master": {
+				"column": "agrupacioConductesInfractores",
+				"table": "barems_v2",
+				"involvedFields": [
+					"submateria"
+				]
+			}
+		},
+		{
+			"id": 5003,
+			"type": "boolean",
+			"name": "tipusInfractor",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"binding": [
+					"agrupacioConductesInfractores"
+				],
+				"disabled": [
+					"agrupacioConductesInfractores"
+				]
+			},
+			"master": {
+				"column": "tipusInfractor",
+				"table": "barems_v2",
+				"involvedFields": [
+					"agrupacioConductesInfractores",
+					"submateria"
+				]
+			}
+		},
+		{
+			"id": 5004,
+			"type": "boolean",
+			"name": "gravetatInfraccio",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"binding": [
+					"tipusInfractor"
+				],
+				"disabled": [
+					"tipusInfractor"
+				]
+			},
+			"master": {
+				"column": "gravetatInfraccio",
+				"table": "barems_v2",
+				"involvedFields": [
+					"tipusInfractor",
+					"agrupacioConductesInfractores",
+					"submateria"
+				]
+			}
+		},
+		{
+			"id": 5005,
+			"type": "masterData-v2",
+			"name": "infraccio",
+			"validations": [
+				"required"
+			],
+			"attributes": [
+				5010,
+				5011,
+				5014,
+				516,
+				518,
+				519,
+				520,
+				521,
+				522,
+				523,
+				524,
+				525,
+				526,
+				527,
+				528,
+				529,
+				530,
+				531,
+				532,
+				5032,
+				50010,
+				50012,
+				50013,
+				50014,
+				50015,
+				50016
+			],
+			"dependencies": {
+				"binding": [
+					"gravetatInfraccio"
+				],
+				"disabled": [
+					"gravetatInfraccio"
+				]
+			},
+			"master": {
+				"column": "conductaInfractora",
+				"table": "barems_v2",
+				"involvedFields": [
+					"gravetatInfraccio",
+					"tipusInfractor",
+					"agrupacioConductesInfractores",
+					"submateria"
+				]
+			}
+		},
+		{
+			"id": 510,
+			"type": "text",
+			"name": "descConductaInfractora",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 5010,
+			"type": "text",
+			"name": "codiConducteInfractora",
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 5011,
+			"type": "text",
+			"name": "tipificacioInfraccio",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 511,
+			"type": "text",
+			"name": "normativaInfringida",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 512,
+			"type": "text",
+			"name": "descConductaSancionadora",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 513,
+			"type": "text",
+			"name": "normativaSancionadora",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 5014,
+			"type": "text",
+			"name": "tipusSancio",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 516,
+			"type": "text",
+			"name": "precepteSancio",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 517,
+			"type": "text",
+			"name": "tipificacioSancio",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 518,
+			"type": "amount",
+			"name": "importProposatSancio",
+			"currency": "€",
+			"validations": [
+				"required",
+				"validateDecimal=2"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 515,
+			"type": "amount",
+			"name": "importSancio",
+			"currency": "€",
+			"validations": [
+				"required",
+				"validateDecimal=2"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 519,
+			"type": "amount",
+			"name": "importMinimSancioInicial",
+			"currency": "€",
+			"validations": [
+				"required",
+				"validateDecimal=2"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 520,
+			"type": "amount",
+			"name": "importMaximSancioInicial",
+			"currency": "€",
+			"validations": [
+				"required",
+				"validateDecimal=2"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 521,
+			"type": "text",
+			"name": "precepteCriterisReincidencia",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 522,
+			"type": "text",
+			"name": "criterisReincidencia",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 523,
+			"type": "text",
+			"name": "precepteSancionsAccessories",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 524,
+			"type": "text",
+			"name": "sancionsAccessories",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 525,
+			"type": "text",
+			"name": "precepteDanysPerjudicis",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 526,
+			"type": "text",
+			"name": "danysPerjudicis",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 527,
+			"type": "numeric",
+			"name": "prescripcioInfraccio",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 528,
+			"type": "numeric",
+			"name": "prescripcioSancio",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 529,
+			"type": "text",
+			"name": "precepteMesuresProvisionals",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 530,
+			"type": "text",
+			"name": "mesuresProvisionals",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 531,
+			"type": "text",
+			"name": "precepteAgreujantsAtenuants",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 532,
+			"type": "text",
+			"name": "agreujantsAtenuants",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 5032,
+			"type": "text",
+			"name": "observacions",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 50010,
+			"type": "text",
+			"name": "conductaInfractoraCatEntenedor",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			},
+			"master": {
+				"column": "conductaInfractora",
+				"table": "barems_v2",
+				"involvedFields": [
+					"gravetatInfraccio",
+					"tipusInfractor",
+					"agrupacioConductesInfractores",
+					"submateria"
+				]
+			}
+		},
+		{
+			"id": 50012,
+			"type": "text",
+			"name": "gravetatInfraccioCast",
+			"validations": [],
+			"dependencies": {
+				"visibility": ["infraccio"]
+			}
+		},
+		{
+			"id": 50013,
+			"type": "text",
+			"name": "conductaInfractoraCast",
+			"validations": [],
+			"dependencies": {
+				"visibility": ["infraccio"]
+			}
+		},
+		{
+			"id": 50014,
+			"type": "text",
+			"name": "conductaInfractoraCastEntenedor",
+			"validations": [],
+			"dependencies": {
+				"visibility": ["infraccio"]
+			}
+		},
+		{
+			"id": 50015,
+			"type": "text",
+			"name": "tipificacioInfraccioCast",
+			"validations": [],
+			"dependencies": {
+				"visibility": ["infraccio"]
+			}
+		},
+		{
+			"id": 50016,
+			"type": "text",
+			"name": "precepteSancioCast",
+			"validations": [],
+			"dependencies": {
+				"visibility": ["infraccio"]
+			}
+		},
+		{
+			"id": 550,
+			"type": "numeric",
+			"name": "percReduccioReconeixementResponsabilitat",
+			"validations": []
+		},
+		{
+			"id": 551,
+			"type": "numeric",
+			"name": "percReduccioPagamentAvancat",
+			"validations": []
+		},
+		{
+			"id": 552,
+			"type": "numeric",
+			"name": "percReduccioRRiPA",
+			"validations": []
+		},
+		{
+			"id": 560,
+			"type": "numeric",
+			"name": "importAmbPercReduccioReconeixementResponsabilitat",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"infraccio$importSancio",
+						"percReduccioReconeixementResponsabilitat"
+					],
+					"formula": "infraccio$importSancio*percReduccioReconeixementResponsabilitat"
+				}
+			}
+		},
+		{
+			"id": 561,
+			"type": "numeric",
+			"name": "importAmbPercReduccioPagamentAvancat",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"infraccio$importSancio",
+						"percReduccioPagamentAvancat"
+					],
+					"formula": "infraccio$importSancio*percReduccioPagamentAvancat"
+				}
+			}
+		},
+		{
+			"id": 562,
+			"type": "numeric",
+			"name": "importAmbPercReduccioRRiPA",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"infraccio$importSancio",
+						"percReduccioRRiPA"
+					],
+					"formula": "infraccio$importSancio*percReduccioRRiPA"
+				}
+			}
+		},
+		{
+			"id": 9900,
+			"type": "MesuresProvisionals",
+			"name": "mesuresProvisionals",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				100,
+				101,
+				102,
+				103,
+				1102,
+				1103,
+				104,
+				1104,
+				1105,
+				105,
+				106,
+				107,
+				1106,
+				1107,
+				1108,
+				1109,
+				1110,
+				108
+			]
+		},
+		{
+			"id": 100,
+			"name": "tipusMesuraProvisional",
+			"type": "boolean",
+			"validations": [
+				"required"
+			],
+			"referenceData": "tipusMesuraProvisional"
+		},
+		{
+			"id": 101,
+			"type": "data",
+			"name": "dataAdopcioMesura",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 102,
+			"type": "text",
+			"name": "detallMesuresAdoptades",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 103,
+			"type": "data",
+			"name": "dataConfirmacioAdopcioMesura",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 1102,
+			"type": "text",
+			"name": "detallMesuresConfirmades",
+			"validations": []
+		},
+		{
+			"id": 1103,
+			"type": "text",
+			"name": "motivacioConfirmacioMesura",
+			"validations": [
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 104,
+			"type": "data",
+			"name": "dataModificacioAdopcioMesura",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 1104,
+			"type": "text",
+			"name": "detallMesuraModificada",
+			"validations": []
+		},
+		{
+			"id": 1105,
+			"type": "text",
+			"name": "motivacioModificacioMesura",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 105,
+			"name": "recursAlcada",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 106,
+			"type": "data",
+			"name": "dataAixecamentMesuresProvisionals",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 107,
+			"name": "motiuAixecamentMesuraAdoptada",
+			"type": "text",
+			"validations": []
+		},
+		{
+			"id": 1106,
+			"name": "tipusDestinacioMesura",
+			"type": "boolean",
+			"validations": [],
+			"referenceData": "tipusDestinacioMesura"
+		},
+		{
+			"id": 1107,
+			"type": "data",
+			"name": "terminiInfractorRecuperacioMesura",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 1108,
+			"type": "data",
+			"name": "dataRecuperacioMesuraInfractor",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 1109,
+			"type": "data",
+			"name": "dataDestinacioMesura",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 1110,
+			"name": "destinacioMesuraAdministracio",
+			"type": "text",
+			"validations": []
+		},
+		{
+			"id": 108,
+			"type": "text",
+			"name": "observacionsMesuresProvisionals",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 100100,
+			"type": "text",
+			"name": "tipusMesuraProvisionalLabel",
+			"validations": []
+		},
+		{
+			"id": 101100,
+			"type": "text",
+			"name": "dataAdopcioMesuraLectura",
+			"validations": []
+		},
+		{
+			"id": 103100,
+			"type": "text",
+			"name": "dataConfirmacioAdopcioMesuraLectura",
+			"validations": []
+		},
+		{
+			"id": 104100,
+			"type": "text",
+			"name": "dataModificacioAdopcioMesuraLectura",
+			"validations": []
+		},
+		{
+			"id": 106100,
+			"type": "text",
+			"name": "dataAixecamentMesuresProvisionalsLectura",
+			"validations": []
+		},
+		{
+			"id": 1106100,
+			"type": "text",
+			"name": "tipusDestinacioMesuraLabel",
+			"validations": []
+		},
+		{
+			"id": 1107100,
+			"type": "text",
+			"name": "terminiInfractorRecuperacioMesuraLectura",
+			"validations": []
+		},
+		{
+			"id": 1108100,
+			"type": "text",
+			"name": "dataRecuperacioMesuraInfractorLectura",
+			"validations": []
+		},
+		{
+			"id": 1109100,
+			"type": "text",
+			"name": "dataDestinacioMesuraLectura",
+			"validations": []
+		},
+		{
+			"id": 114,
+			"type": "AmpliacioDeDades",
+			"name": "ampliacioDeDades",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				116,
+				117,
+				118,
+				115,
+				119,
+				120,
+				121,
+				122,
+				124,
+				125,
+				123
+			]
+		},
+		{
+			"id": 116,
+			"type": "data",
+			"name": "ampliacioDeDades$dataSolicitud",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 117,
+			"type": "data",
+			"name": "ampliacioDeDades$terminiPresentacio",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 118,
+			"type": "text",
+			"name": "ampliacioDeDades$informacioRequerida",
+			"validations": [
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 115,
+			"type": "text",
+			"name": "ampliacioDeDades$motivacio",
+			"validations": [
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 119,
+			"type": "boolean",
+			"name": "ampliacioDeDades$canalEntradaInformacioRequerida",
+			"referenceData": "canalEntradaInformacioRequerida",
+			"validations": []
+		},
+		{
+			"id": 120,
+			"type": "data",
+			"name": "ampliacioDeDades$registreEntrada$data",
+			"validations": []
+		},
+		{
+			"id": 121,
+			"type": "text",
+			"name": "ampliacioDeDades$registreEntrada$numero",
+			"validations": [],
+			"pattern": "^[0-9]+[/][0-9]+[/][0-9]+$"
+		},
+		{
+			"id": 122,
+			"type": "text",
+			"name": "ampliacioDeDades$codiIdentificador",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"ampliacioDeDades$canalEntradaInformacioRequerida=1"
+				]
+			}
+		},
+		{
+			"id": 123,
+			"type": "text",
+			"name": "ampliacioDeDades$observacions",
+			"validations": [
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 124,
+			"type": "text",
+			"name": "ampliacioDeDades$resultaIncoporarAcordInici",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 125,
+			"type": "document3",
+			"name": "ampliacioDeDades$document",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 1000,
+			"type": "EntitatProcedimental",
+			"name": "entitatProcedimental",
+			"attributes": [
+				1001,
+				1003
+			]
+		},
+		{
+			"id": 1001,
+			"type": "document3",
+			"name": "documents",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1003,
+			"type": "text",
+			"name": "entitatsProcedimentals",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 130,
+			"type": "AcordInici",
+			"name": "acordInici",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				131,
+				132,
+				133,
+				134,
+				135
+			]
+		},
+		{
+			"id": 131,
+			"type": "data",
+			"name": "acordInici$data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 331001,
+			"type": "text",
+			"name": "acordInici$dataLectura",
+			"validations": []
+		},
+		{
+			"id": 132,
+			"type": "data",
+			"name": "acordInici$dataLimitAlegacions",
+			"validations": []
+		},
+		{
+			"id": 133,
+			"type": "text",
+			"name": "acordInici$motivacio",
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 134,
+			"type": "boolean",
+			"name": "acordInici$tipus",
+			"referenceData": "tipusAcordInici",
+			"validations": []
+		},
+		{
+			"id": 135,
+			"type": "text",
+			"name": "acordInici$observacions",
+			"validations": [
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 113,
+			"type": "document3",
+			"documentId": 19,
+			"name": "acordInici$document",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 3600,
+			"type": "Informe",
+			"name": "informe",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				360,
+				361,
+				362,
+				363,
+				364,
+				365,
+				366,
+				367,
+				368,
+				370,
+				371,
+				372,
+				373,
+				374,
+				375,
+				380,
+				381,
+				382
+			]
+		},
+		{
+			"id": 360,
+			"type": "boolean",
+			"name": "tipus",
+			"referenceData": "tipusInforme",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 3060,
+			"type": "boolean",
+			"name": "solicitudInformePreceptiu",
+			"validations": []
+		},
+		{
+			"id": 361,
+			"type": "boolean",
+			"name": "equipGestor",
+			"referenceData": "tipusEquipGestorInforme",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 362,
+			"type": "text",
+			"name": "aQuiEsDemana",
+			"validations": []
+		},
+		{
+			"id": 363,
+			"type": "text",
+			"name": "nomTecnicSolicitat",
+			"validations": []
+		},
+		{
+			"id": 364,
+			"type": "text",
+			"name": "emailSolicitud",
+			"validations": [],
+			"pattern": "^([_a-zA-Z0-9-ñÑçÇ]+(\\.[_a-zA-Z0-9-ñÑçÇ]+)*@[a-zA-Z0-9-ñÑçÇ]+(\\.[a-zA-Z0-9-ñÑçÇ]+)*(\\.[a-zA-ZñÑçÇ]{1,9}))?$"
+		},
+		{
+			"id": 365,
+			"type": "text",
+			"name": "motivacioSolicitud",
+			"validations": [
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 366,
+			"type": "document3",
+			"name": "documentAdjuntSolicitud",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 367,
+			"type": "data",
+			"name": "dataSolicitud",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		
+		{
+			"id": 367000,
+			"type": "text",
+			"name": "dataSolicitudLectura",
+			"validations": []
+		},
+		{
+			"id": 368,
+			"type": "data",
+			"name": "dataLimitRecepcio",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 370,
+			"type": "data",
+			"name": "data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		
+		{
+			"id": 370000,
+			"type": "text",
+			"name": "dataLectura",
+			"validations": []
+		},
+		{
+			"id": 371,
+			"type": "text",
+			"name": "cos",
+			"validations": [
+				"required",
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 372,
+			"type": "text",
+			"name": "sentit",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 373,
+			"type": "data",
+			"name": "dataRecepcio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},	
+		{
+			"id": 373000,
+			"type": "text",
+			"name": "dataRecepcioLectura",
+			"validations": []
+		},
+		{
+			"id": 374,
+			"type": "document3",
+			"name": "documentAdjuntElaboracio",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 375,
+			"type": "text",
+			"name": "observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 380,
+			"name": "nousFetsNoConegutsPartInfratora",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 381,
+			"type": "text",
+			"name": "detallNousFetsNoConeguts",
+			"validations": []
+		},
+		{
+			"id": 382,
+			"name": "notificarPartInfractora",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 3300,
+			"type": "PracticaProves",
+			"name": "practicaProves",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				330,
+				331,
+				332,
+				333,
+				334,
+				335,
+				336,
+				337,
+				338,
+				339,
+				340,
+				341,
+				343,
+				348,
+				345,
+				346,
+				347,
+				3047,
+				3048
+			]
+		},
+		{
+			"id": 3301,
+			"type": "informeTecnic",
+			"name": "informeTecnic",
+			"multiple": true,
+			"attributes": [			
+				
+			]
+		},
+		{
+			"id": 330,
+			"type": "boolean",
+			"name": "canalEntrada",
+			"referenceData": "canalEntradaPracticaProves",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 331,
+			"type": "data",
+			"name": "dataRegistreEntradaSolicitud",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 331000,
+			"type": "text",
+			"name": "dataRegistreEntradaSolicitudLectura",
+			"validations": []
+		},
+		{
+			"id": 332,
+			"type": "text",
+			"name": "numeroRegistreEntradaSolicitud",
+			"validations": []
+		},
+		{
+			"id": 333,
+			"type": "text",
+			"name": "codiIdentificadorEntradaSolicitud",
+			"validations": []
+		},
+		{
+			"id": 334,
+			"type": "boolean",
+			"name": "motivacioSolicitudPracticaProves",
+			"referenceData": "motivacioSolicitudPracticaProves",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 335,
+			"type": "boolean",
+			"name": "tipusProva",
+			"referenceData": "tipusProvaPracticaProves",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 335000,
+			"type": "text",
+			"name": "tipusProvaLabel",
+			"validations": []
+		},
+		{
+			"id": 336,
+			"name": "calPresenciaPartsAmbAuxiliTecnic",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 337,
+			"name": "accepta",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 338,
+			"type": "text",
+			"name": "motivacioNoAcceptacio",
+			"validations": []
+		},
+		{
+			"id": 339,
+			"type": "numeric",
+			"name": "termini",
+			"validations": []
+		},
+		{
+			"id": 340,
+			"type": "data",
+			"name": "dataRealitzacio",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 340000,
+			"type": "text",
+			"name": "dataRealitzacioLectura",
+			"validations": []
+		},
+		{
+			"id": 341,
+			"type": "data",
+			"name": "horaRealitzacioPracticaProves",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 341000,
+			"type": "text",
+			"name": "horaRealitzacioPracticaProvesLectura",
+			"validations": []
+		},
+		{
+			"id": 342,
+			"type": "text",
+			"name": "llocRealitzacioPracticaProves",
+			"validations": []
+		},
+		{
+			"id": 343,
+			"type": "text",
+			"name": "resumRealitzacio",
+			"validations": [
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 348,
+			"type": "data",
+			"name": "dataResultat",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},		
+		{
+			"id": 348000,
+			"type": "text",
+			"name": "dataResultatLectura",
+			"validations": []
+		},
+		{
+			"id": 344,
+			"name": "estimaPracticaProves",
+			"type": "boolean",
+			"validations": [
+				"required"
+			],
+			"referenceData": "tipusEstimacio"
+		},
+		{
+			"id": 345,
+			"name": "apareixenNousFetsNoConegutsPartInfractora",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 346,
+			"type": "text",
+			"name": "detallNousFetsNoConeguts",
+			"validations": [
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 347,
+			"type": "text",
+			"name": "observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 3047,
+			"type": "boolean",
+			"name": "solicitant",
+			"referenceData": "partsInteressades",
+			"validations": []
+		},
+		{
+			"id": 3048,
+			"type": "document3",
+			"name": "document",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 350,
+			"type": "text",
+			"name": "nomSolicitantPracticaProves",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 5743,
+			"type": "numeric",
+			"name": "importTotalRequeritResolucio",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$aplicaReconeixement",
+						"sancio$percBonificacioReconeixement",
+						"sancio$reconeixement"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100 - (sancio$percBonificacioReconeixement*100*sancio$aplicaReconeixement*sancio$reconeixement)))/100"
+				}
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioImportTotalRequerit"
+				}
+			]
+		},
+		{
+			"id": 5744,
+			"type": "numeric",
+			"name": "importTotalRequeritResolucioRecurs",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat"
+					],
+					"formula": "sancio$importTotalProposat"
+				}
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioInfraccionsProposatReconeixementResolucioRecurs"
+				}
+			]
+		},
+		{
+			"id": 351,
+			"type": "text",
+			"name": "cognom1SolicitantPracticaProves",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 352,
+			"type": "text",
+			"name": "cognom2SolicitantPracticaProves",
+			"validations": []
+		},
+		{
+			"id": 353,
+			"type": "boolean",
+			"name": "tipusDocumentSolicitantPracticaProves",
+			"referenceData": "tipusDocument",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 354,
+			"type": "text",
+			"name": "numIdentificacioNIFSolicitantPracticaProves",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"tipusDocumentSolicitantPracticaProves=1"
+				],
+				"visibility": [
+					"tipusDocumentSolicitantPracticaProves=1"
+				]
+			}
+		},
+		{
+			"id": 355,
+			"type": "text",
+			"name": "numIdentificacioSolicitantPracticaProves",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"tipusDocumentSolicitantPracticaProves=2|3"
+				],
+				"visibility": [
+					"tipusDocumentSolicitantPracticaProves=2|3|4"
+				]
+			}
+		},
+		{
+			"id": 2100,
+			"type": "Adreça",
+			"name": "adrecaPracticaProves",
+			"attributes": [
+				2016,
+				2017,
+				2018,
+				2019,
+				2020,
+				2021,
+				2022,
+				2023,
+				2024,
+				2026,
+				2028,
+				2029,
+				2030,
+				2031,
+				2032
+			]
+		},
+		{
+			"id": 2016,
+			"type": "boolean",
+			"name": "adrecaPracticaProves$tipusVia",
+			"referenceData": "tipusVia",
+			"validations": []
+		},
+		{
+			"id": 2017,
+			"type": "text",
+			"name": "adrecaPracticaProves$nomVia",
+			"validations": []
+		},
+		{
+			"id": 2018,
+			"type": "text",
+			"name": "adrecaPracticaProves$numeroVia",
+			"validations": []
+		},
+		{
+			"id": 2019,
+			"type": "text",
+			"name": "adrecaPracticaProves$poligonIndustrial",
+			"validations": []
+		},
+		{
+			"id": 2020,
+			"type": "text",
+			"name": "adrecaPracticaProves$nau",
+			"validations": []
+		},
+		{
+			"id": 2021,
+			"type": "text",
+			"name": "adrecaPracticaProves$bloc",
+			"validations": []
+		},
+		{
+			"id": 2022,
+			"type": "text",
+			"name": "adrecaPracticaProves$escala",
+			"validations": []
+		},
+		{
+			"id": 2023,
+			"type": "text",
+			"name": "adrecaPracticaProves$pis",
+			"validations": []
+		},
+		{
+			"id": 2024,
+			"type": "text",
+			"name": "adrecaPracticaProves$porta",
+			"validations": []
+		},
+		{
+			"id": 2026,
+			"type": "text",
+			"name": "adrecaPracticaProves$codiPostal",
+			"referenceData": "codisPostals",
+			"validations": [],
+			"dependencies": {
+				"binding": [
+					"adrecaPracticaProves$municipi"
+				],
+				"required": [
+					"adrecaPracticaProves$pais=108"
+				],
+				"disabled": [
+					"adrecaPracticaProves$municipi"
+				]
+			}
+		},
+		{
+			"id": 2028,
+			"type": "boolean",
+			"name": "adrecaPracticaProves$provincia",
+			"referenceData": "provincies",
+			"validations": [],
+			"dependencies": {
+				"binding": [
+					"adrecaPracticaProves$municipi"
+				],
+				"referenceDataBinding": [
+					"municipis"
+				],
+				"disabled": [
+					"adrecaPracticaProves$municipi"
+				],
+				"required": [
+					"adrecaPracticaProves$pais=108"
+				]
+			}
+		},
+		{
+			"id": 2029,
+			"type": "boolean",
+			"name": "adrecaPracticaProves$municipi",
+			"referenceData": "municipis",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"adrecaPracticaProves$pais=108"
+				],
+				"binding": [
+					"adrecaPracticaProves$pais"
+				],
+				"disabled": [
+					"adrecaPracticaProves$pais"
+				]
+			}
+		},
+		{
+			"id": 2030,
+			"type": "boolean",
+			"name": "adrecaPracticaProves$pais",
+			"referenceData": "paisosIne",
+			"validations": []
+		},
+		{
+			"id": 2031,
+			"type": "text",
+			"name": "adrecaPracticaProves$comentarisAdreca",
+			"validations": []
+		},
+		{
+			"id": 2032,
+			"type": "boolean",
+			"name": "adrecaPracticaProves$comarca",
+			"referenceData": "comarques",
+			"validations": [],
+			"dependencies": {
+				"binding": [
+					"adrecaPracticaProves$municipi"
+				],
+				"referenceDataBinding": [
+					"municipis"
+				],
+				"disabled": [
+					"adrecaPracticaProves$municipi"
+				],
+				"required": [
+					"adrecaPracticaProves$pais=108"
+				]
+			}
+		},
+		{
+			"id": 301,
+			"type": "boolean",
+			"name": "canalEntradaAlegacions",
+			"referenceData": "canalEntradaAlegacions",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 3001,
+			"type": "boolean",
+			"name": "fasePresentacioAlegacio",
+			"referenceData": "fasePresentacioAlegacio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 302,
+			"type": "data",
+			"name": "dataPresentacioAlegacio",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 303,
+			"type": "text",
+			"name": "numRegistreSolicitud",
+			"validations": []
+		},
+		{
+			"id": 304,
+			"type": "text",
+			"name": "codiIdentificadorRegistreEntradaAlegacions",
+			"validations": []
+		},
+		{
+			"id": 305,
+			"name": "origenAlegacions",
+			"type": "boolean",
+			"validations": [
+				"required"
+			],
+			"referenceData": "origenAlegacions"
+		},
+		{
+			"id": 306,
+			"type": "text",
+			"name": "motivacioAlegacions",
+			"validations": [
+				"required",
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 3070,
+			"name": "tipusAlegacions",
+			"type": "boolean",
+			"validations": [],
+			"referenceData": "tipusAlegacions"
+		},
+		{
+			"id": 308,
+			"name": "alegacionsForaDeTermini",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 3009,
+			"type": "text",
+			"name": "fonamentsResposta",
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 310,
+			"name": "propostaPracticaDeProves",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 311,
+			"type": "text",
+			"name": "llocPresentacioAlegacio",
+			"validations": []
+		},
+		{
+			"id": 312,
+			"name": "tipusEstimacio",
+			"type": "boolean",
+			"validations": [
+				"required"
+			],
+			"referenceData": "tipusEstimacio"
+		},
+		{
+			"id": 313,
+			"type": "text",
+			"name": "observacionsAlegacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 3013,
+			"type": "boolean",
+			"name": "solicitantAlegacio",
+			"referenceData": "partsInteressades",
+			"validations": []
+		},
+		{
+			"id": 3014,
+			"type": "document3",
+			"name": "documentAlegacio",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 314,
+			"type": "text",
+			"name": "nomPresentadorAlegacions",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 315,
+			"type": "text",
+			"name": "cognom1PresentadorAlegacions",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 316,
+			"type": "text",
+			"name": "cognom2PresentadorAlegacions",
+			"validations": []
+		},
+		{
+			"id": 317,
+			"type": "boolean",
+			"name": "tipusDocumentPresentadorAlegacions",
+			"referenceData": "tipusDocument",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 318,
+			"type": "text",
+			"name": "numIdentificacioNIFPresentadorAlegacions",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"tipusDocumentPresentadorAlegacions=1"
+				],
+				"visibility": [
+					"tipusDocumentPresentadorAlegacions=1"
+				]
+			}
+		},
+		{
+			"id": 319,
+			"type": "text",
+			"name": "numIdentificacioPresentadorAlegacions",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"tipusDocumentPresentadorAlegacions=2|3"
+				],
+				"visibility": [
+					"tipusDocumentPresentadorAlegacions=2|3|4"
+				]
+			}
+		},
+		{
+			"id": 568,
+			"type": "document3",
+			"documentId": 73,
+			"name": "documentReconeixement",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 1568,
+			"documentId": 29,
+			"type": "document3",
+			"name": "acordInici$docNotificacioAI",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1569,
+			"documentId": 285,
+			"type": "document3",
+			"name": "acordInici$docInfografia",
+			"multiple": true,
+			"validations": [
+				
+			]
+		},
+		{
+			"id": 2568,
+			"documentId": 73,
+			"type": "document3",
+			"name": "documentReconeixementNotificacioProposta",
+			"multiple": true
+		},
+		{
+			"id": 2569,
+			"documentId": 32,
+			"type": "document3",
+			"name": "propostaResolucio$documentNotificacio",
+			"multiple": true,
+			"validations": [
+			]
+		},
+		{
+			"id": 578,
+			"type": "PartInteresada",
+			"name": "partInteressada",
+			"extend": "PartInteresada",
+			"attributes": [
+				577,
+				580,
+				581,
+				5810,
+				582,
+				583,
+				584,
+				585,
+				586,
+				587,
+				588,
+				589,
+				590,
+				5900,
+				591,
+				592,
+				609,
+				610,
+				592,
+				5910,
+				619,
+				620,
+				622,
+				623,
+				624,
+				625,
+				626,
+				627,
+				6202
+			]
+		},
+		{
+			"id": 5056,
+			"type": "text",
+			"name": "motivacioAlegacions",
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 607,
+			"type": "Infractor",
+			"name": "infractor",
+			"multiple": true,
+			"extend": "PartInteresada",
+			"attributes": [
+				579,
+				5790
+			]
+		},
+		{
+			"id": 608,
+			"type": "Denunciant",
+			"name": "denunciant",
+			"multiple": true,
+			"extend": "PartInteresada",
+			"attributes": []
+		},
+		{
+			"id": 6007,
+			"type": "Inspector",
+			"name": "inspector",
+			"multiple": true,
+			"extend": "PartInteresada",
+			"attributes": [
+				621
+			]
+		},
+		{
+			"id": 6008,
+			"type": "Altres Interessats",
+			"name": "altresinteressats",
+			"multiple": true,
+			"extend": "PartInteresada",
+			"attributes": []
+		},
+		{
+			"id": 577,
+			"type": "text",
+			"name": "rol",
+			"validations": [
+				"required"
+			],
+			"referenceData": "rol"
+		},
+		{
+			"id": 579,
+			"name": "esReincident",
+			"type": "boolean",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"rol=infractor"
+				]
+			}
+		},
+		{
+			"id": 5790,
+			"name": "esTambePersonaDenunciant",
+			"type": "boolean",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"rol=infractor"
+				]
+			}
+		},
+		{
+			"id": 580,
+			"type": "boolean",
+			"name": "tipusPersona",
+			"referenceData": "tipusPersona",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 4000,
+			"type": "boolean",
+			"name": "infractor$00001$tipusPersona",
+			"referenceData": "tipusPersona",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 400010,
+			"type": "text",
+			"name": "infractor$00001$tipusPersonaLabel",
+			"validations": []
+		},
+		{
+			"id": 581,
+			"type": "text",
+			"name": "raoSocial",
+			"validations": [],
+			"decorator": {
+				"rule": "concat",
+				"target": "nomComplet",
+				"source": [
+					"raoSocial",
+					"nom",
+					"primerCognom",
+					"segonCognom"
+				]
+			},
+			"dependencies": {
+				"required": [
+					"tipusPersona=2|3|4",
+					"organismeEACAT=false"
+				],
+				"visibility": [
+					"tipusPersona=2|3|4",
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 5810,
+			"type": "text",
+			"name": "establiment",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=2|3|4"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 4001,
+			"type": "boolean",
+			"name": "infractor$00001$raoSocial",
+			"validations": [],
+			"decorator": {
+				"rule": "concat",
+				"target": "nomComplet",
+				"source": [
+					"raoSocial",
+					"nom",
+					"primerCognom",
+					"segonCognom"
+				]
+			},
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusPersona=2|3|4"
+				],
+				"visibility": [
+					"infractor$00001$tipusPersona=2|3|4"
+				]
+			}
+		},
+		{
+			"id": 582,
+			"type": "text",
+			"name": "nom",
+			"validations": [],
+			"decorator": {
+				"rule": "concat",
+				"target": "nomComplet",
+				"source": [
+					"raoSocial",
+					"nom",
+					"primerCognom",
+					"segonCognom"
+				]
+			},
+			"dependencies": {
+				"required": [
+					"tipusPersona=1"
+				],
+				"visibility": [
+					"tipusPersona=1"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 4002,
+			"type": "text",
+			"name": "infractor$00001$nom",
+			"decorator": {
+				"rule": "concat",
+				"target": "nomComplet",
+				"source": [
+					"raoSocial",
+					"nom",
+					"primerCognom",
+					"segonCognom"
+				]
+			},
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusPersona=1"
+				],
+				"visibility": [
+					"infractor$00001$tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 583,
+			"type": "text",
+			"name": "primerCognom",
+			"validations": [],
+			"decorator": {
+				"rule": "concat",
+				"target": "nomComplet",
+				"source": [
+					"raoSocial",
+					"nom",
+					"primerCognom",
+					"segonCognom"
+				]
+			},
+			"dependencies": {
+				"required": [
+					"tipusPersona=1"
+				],
+				"visibility": [
+					"tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 4003,
+			"type": "text",
+			"name": "infractor$00001$primerCognom",
+			"validations": [],
+			"decorator": {
+				"rule": "concat",
+				"target": "nomComplet",
+				"source": [
+					"raoSocial",
+					"nom",
+					"primerCognom",
+					"segonCognom"
+				]
+			},
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusPersona=1"
+				],
+				"visibility": [
+					"infractor$00001$tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 584,
+			"type": "text",
+			"name": "segonCognom",
+			"validations": [],
+			"decorator": {
+				"rule": "concat",
+				"target": "nomComplet",
+				"source": [
+					"raoSocial",
+					"nom",
+					"primerCognom",
+					"segonCognom"
+				]
+			},
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 4004,
+			"type": "text",
+			"name": "infractor$00001$segonCognom",
+			"validations": [],
+			"decorator": {
+				"rule": "concat",
+				"target": "nomComplet",
+				"source": [
+					"raoSocial",
+					"nom",
+					"primerCognom",
+					"segonCognom"
+				]
+			},
+			"dependencies": {
+				"visibility": [
+					"infractor$00001$tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 585,
+			"type": "text",
+			"name": "paisDocument",
+			"referenceData": "paisosIso",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1|2|3|4"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 586,
+			"type": "boolean",
+			"name": "tipusDocument",
+			"referenceData": "tipusDocument",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"tipusPersona=1"
+				],
+				"visibility": [
+					"tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 4005,
+			"type": "boolean",
+			"name": "infractor$00001$tipusDocument",
+			"referenceData": "tipusDocument",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusPersona=1"
+				],
+				"visibility": [
+					"infractor$00001$tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 587,
+			"type": "boolean",
+			"name": "tipusDocumentJuridic",
+			"referenceData": "tipusDocumentJuridic",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"tipusPersona=2|3|4"
+				],
+				"visibility": [
+					"tipusPersona=2|3|4"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 4006,
+			"type": "boolean",
+			"name": "infractor$00001$tipusDocumentJuridic",
+			"referenceData": "tipusDocumentJuridic",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusPersona=2|3|4"
+				],
+				"visibility": [
+					"infractor$00001$tipusPersona=2|3|4"
+				]
+			}
+		},
+		{
+			"id": 588,
+			"type": "text",
+			"name": "numIdentificacioNIF",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "identificador"
+			},
+			"dependencies": {
+				"required": [
+					"tipusDocument=2"
+				],
+				"visibility": [
+					"tipusDocument=2"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 4007,
+			"type": "text",
+			"name": "infractor$00001$numIdentificacioNIF",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "identificador"
+			},
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusDocument=2"
+				],
+				"visibility": [
+					"infractor$00001$tipusDocument=2"
+				]
+			}
+		},
+		{
+			"id": 22031,
+			"type": "recursContencios",
+			"name": "recursContencios",
+			"attributes": [
+				22001,
+				22002,
+				22003,
+				22004,
+				22005,
+				22006,
+				22007,
+				22008,
+				22009,
+				22010,
+				22011,
+				22012,
+				22013,
+				22014,
+				22015,
+				22016,
+				22017,
+				22018,
+				22019,
+				22020,
+				22021,
+				22022,
+				22023,
+				22024,
+				22025,
+				22026,
+				22027,
+				22028,
+				22029,
+				22030,
+				22035,
+				22036,
+				22037,
+				22038
+			],
+			"multiple": "true",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 22001,
+			"type": "boolean",
+			"name": "canalEntrada",
+			"referenceData": "canalEntradaRecurs",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 22002,
+			"type": "data",
+			"name": "expedient$registreEntrada$data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 22003,
+			"type": "text",
+			"name": "numeroRegistreEntrada",
+			"validations": []
+		},
+		{
+			"id": 22006,
+			"type": "text",
+			"name": "numeroProcediment",
+			"validations": []
+		},
+		{
+			"id": 22007,
+			"type": "text",
+			"name": "jutjat",
+			"validations": []
+		},
+		{
+			"id": 22008,
+			"type": "boolean",
+			"name": "quiInterposa",
+			"referenceData": "partsInteressades",
+			"validations": []
+		},
+		{
+			"id": 30475,
+			"type": "boolean",
+			"name": "quiInterposaRecurs",
+			"referenceData": "partsInteressades",
+			"validations": []
+		},
+		{
+			"id": 22009,
+			"type": "boolean",
+			"name": "motivacioRecurs",
+			"referenceData": "motivacioRecurs",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 220090,
+			"type": "text",
+			"name": "motivacioRecursLabel",
+			"validations": []
+		},
+		{
+			"id": 22011,
+			"type": "text",
+			"name": "resumRecursosPrevis",
+			"validations": []
+		},
+		{
+			"id": 22012,
+			"type": "data",
+			"name": "dataInformeAssesoriaJuridica",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 22013,
+			"type": "boolean",
+			"name": "sentitInformeAssessoriaJuridica",
+			"referenceData": "sentitResolucio",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 22014,
+			"type": "boolean",
+			"name": "sollicitarActuacionsComplementaries",
+			"validations": []
+		},
+		{
+			"id": 22015,
+			"type": "boolean",
+			"name": "implicaSuspensio",
+			"validations": []
+		},
+		{
+			"id": 22016,
+			"type": "text",
+			"name": "fonamentsResposta",
+			"validations": []
+		},
+		{
+			"id": 22017,
+			"type": "boolean",
+			"name": "mesuresCautelars",
+			"validations": []
+		},
+		{
+			"id": 22018,
+			"type": "text",
+			"name": "informacioMesures",
+			"validations": []
+		},
+		{
+			"id": 22019,
+			"type": "data",
+			"name": "dataMesures",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2201900,
+			"type": "text",
+			"name": "dataMesuresLectura",
+			"validations": []
+		},
+		{
+			"id": 22020,
+			"type": "data",
+			"name": "dataEntregaExpedientAssessoria",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2202000,
+			"type": "text",
+			"name": "dataEntregaExpedientAssessoriaLectura",
+			"validations": []
+		},
+		{
+			"id": 22021,
+			"type": "data",
+			"name": "dataEntregaExpedientJutjat",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2202100,
+			"type": "text",
+			"name": "dataEntregaExpedientJutjatLectura",
+			"validations": []
+		},
+		{
+			"id": 22022,
+			"type": "data",
+			"name": "dataVista",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2202200,
+			"type": "text",
+			"name": "dataVistaLectura",
+			"validations": []
+		},
+		{
+			"id": 22023,
+			"type": "boolean",
+			"name": "sentitSentencia",
+			"referenceData": "sentitResolucio",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 22024,
+			"type": "data",
+			"name": "dataSentencia",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2202400,
+			"type": "text",
+			"name": "dataSentenciaLectura",
+			"validations": []
+		},
+		{
+			"id": 22025,
+			"type": "data",
+			"name": "dataTramesaSentencia",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2202500,
+			"type": "text",
+			"name": "dataTramesaSentenciaLectura",
+			"validations": []
+		},
+		{
+			"id": 22026,
+			"type": "boolean",
+			"name": "recursContraSentencia",
+			"validations": []
+		},
+		{
+			"id": 22027,
+			"type": "data",
+			"name": "dataSentenciaApelacio",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2202700,
+			"type": "text",
+			"name": "dataSentenciaApelacioLectura",
+			"validations": []
+		},
+		{
+			"id": 22035,
+			"type": "numeric",
+			"name": "importSancioSentencia",
+			"validations": []
+		},
+		{
+			"id": 22036,
+			"type": "data",
+			"name": "dataPropostaDevolucioIngressos",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 2203600,
+			"type": "text",
+			"name": "dataPropostaDevolucioIngressosLectura",
+			"validations": []
+		},
+		{
+			"id": 22037,
+			"type": "data",
+			"name": "dataTramesaDevolucioIngressos",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 22038,
+			"type": "boolean",
+			"name": "sentitResolucio",
+			"referenceData": "sentitResolucio",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 2203700,
+			"type": "text",
+			"name": "dataTramesaDevolucioIngressosLectura",
+			"validations": []
+		},
+		{
+			"id": 22028,
+			"type": "boolean",
+			"name": "sentitSentenciaApelacio",
+			"referenceData": "sentitResolucio",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 22029,
+			"type": "text",
+			"name": "observacions",
+			"validations": []
+		},
+		{
+			"id": 22030,
+			"type": "document3",
+			"name": "document",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 22032,
+			"type": "text",
+			"name": "fonamentsResposta",
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 22004,
+			"type": "text",
+			"name": "codiIdentificador",
+			"validations": []
+		},
+		{
+			"id": 589,
+			"type": "text",
+			"name": "numIdentificacio",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "identificador"
+			},
+			"dependencies": {
+				"required": [
+					"tipusDocument=1|3|4|5|6"
+				],
+				"visibility": [
+					"tipusDocument=1|3|4|5|6|7|8"
+				],
+				"validationsList": [
+					{
+						"fields": [
+							"tipusDocument=1"
+						],
+						"validations": [
+							"validatorNIE"
+						]
+					}
+				]
+			},
+			"master": {
+				"column": "numIdentificacio",
+				"table": "organisme",
+				"involvedFields": [
+					"raoSocialEACAT"
+				]
+			}
+		},
+		{
+			"id": 4008,
+			"type": "text",
+			"name": "infractor$00001$numIdentificacio",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "identificador"
+			},
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusDocument=1|3|4|5|6"
+				],
+				"visibility": [
+					"infractor$00001$tipusDocument=1|3|4|5|6|7|8"
+				]
+			}
+		},
+		{
+			"id": 590,
+			"type": "text",
+			"name": "email",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1"
+				]
+			},
+			"pattern": "^([_a-zA-Z0-9-ñÑçÇ]+(\\.[_a-zA-Z0-9-ñÑçÇ]+)*@[a-zA-Z0-9-ñÑçÇ]+(\\.[a-zA-Z0-9-ñÑçÇ]+)*(\\.[a-zA-ZñÑçÇ]{1,9}))?$"
+		},
+		{
+			"id": 5900,
+			"type": "text",
+			"name": "emailJuridic",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=2|3|4"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			},
+			"pattern": "^([_a-zA-Z0-9-ñÑçÇ]+(\\.[_a-zA-Z0-9-ñÑçÇ]+)*@[a-zA-Z0-9-ñÑçÇ]+(\\.[a-zA-Z0-9-ñÑçÇ]+)*(\\.[a-zA-ZñÑçÇ]{1,9}))?$"
+		},
+		{
+			"id": 591,
+			"name": "preferenciaElectronica",
+			"type": "boolean",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 5910,
+			"name": "preferenciaElectronicaExpedient",
+			"type": "boolean",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 592,
+			"type": "Adreça",
+			"name": "adreca",
+			"attributes": [
+				593,
+				594,
+				595,
+				596,
+				597,
+				598,
+				599,
+				600,
+				601,
+				602,
+				603,
+				604,
+				605,
+				606,
+				904,
+				905,
+				6041,
+				9041,
+				6031,
+				6021
+			]
+		},
+		{
+			"id": 593,
+			"type": "boolean",
+			"name": "adreca$tipusVia",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea1",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta"
+					]
+				}
+			],
+			"referenceData": "tipusVia",
+			"validations": []
+		},
+		{
+			"id": 594,
+			"type": "text",
+			"name": "adreca$nomVia",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea1",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta"
+					]
+				}
+			],
+			"validations": [],
+			"master": {
+				"column": "adreca$nomVia",
+				"table": "organisme",
+				"involvedFields": [
+					"raoSocialEACAT"
+				]
+			}
+		},
+		{
+			"id": 595,
+			"type": "text",
+			"name": "adreca$numeroVia",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea1",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta"
+					]
+				}
+			],
+			"validations": [
+				"maxlength=4"
+			]
+		},
+		{
+			"id": 596,
+			"type": "text",
+			"name": "adreca$bloc",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea1",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta"
+					]
+				}
+			],
+			"validations": []
+		},
+		{
+			"id": 597,
+			"type": "text",
+			"name": "adreca$escala",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea1",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta"
+					]
+				}
+			],
+			"validations": []
+		},
+		{
+			"id": 598,
+			"type": "text",
+			"name": "adreca$pis",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea1",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta"
+					]
+				}
+			],
+			"validations": []
+		},
+		{
+			"id": 599,
+			"type": "text",
+			"name": "adreca$porta",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea1",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta"
+					]
+				}
+			],
+			"validations": []
+		},
+		{
+			"id": 600,
+			"type": "text",
+			"name": "adreca$poligonIndustrial",
+			"validations": [],
+			"dependencies": {
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 601,
+			"type": "text",
+			"name": "adreca$nau",
+			"validations": [],
+			"dependencies": {
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 602,
+			"type": "boolean",
+			"name": "adreca$codiPostal",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea2",
+					"source": [
+						"adreca$codiPostal",
+						"adreca$municipiLabel"
+					]
+				}
+			],
+			"referenceData": "codisPostals",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"organismeEACAT=false"
+				],
+				"binding": [
+					"adreca$municipi"
+				],
+				"required": [
+					"adreca$municipi="
+				],
+				"disabled": [
+					"adreca$municipi"
+				]
+			}
+		},
+		{
+			"id": 603,
+			"type": "boolean",
+			"name": "adreca$provincia",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				}
+			],
+			"referenceData": "provincies",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"organismeEACAT=false"
+				],
+				"binding": [
+					"adreca$municipi"
+				],
+				"referenceDataBinding": [
+					"municipis"
+				],
+				"disabled": [
+					"adreca$municipi"
+				],
+				"required": [
+					"adreca$municipi="
+				]
+			}
+		},
+		{
+			"id": 604,
+			"type": "boolean",
+			"name": "adreca$municipi",
+			"referenceData": "municipis",
+			"decoratorArray": [
+				{
+					"rule": "concat",
+					"target": "adrecaCompleta",
+					"source": [
+						"adreca$tipusViaLabel",
+						"adreca$nomVia",
+						"adreca$numeroVia",
+						"adreca$bloc",
+						"adreca$escala",
+						"adreca$pis",
+						"adreca$porta",
+						"adreca$codiPostal",
+						"adreca$municipiLabel",
+						"adreca$provinciaLabel"
+					]
+				},
+				{
+					"rule": "concat",
+					"target": "adrecaLinea2",
+					"source": [
+						"adreca$codiPostal",
+						"adreca$municipiLabel"
+					]
+				}
+			],
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"organismeEACAT=false"
+				],
+				"binding": [
+					"adreca$pais"
+				],
+				"disabled": [
+					"adreca$pais"
+				]
+			}
+		},
+		{
+			"id": 605,
+			"type": "boolean",
+			"name": "adreca$pais",
+			"referenceData": "paisosIne",
+			"validations": [],
+			"dependencies": {		
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 606,
+			"type": "text",
+			"name": "adreca$comentarisAdreca",
+			"validations": [],
+			"dependencies": {
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 905,
+			"type": "text",
+			"name": "adreca$observacionsCaratula",
+			"validations": [],
+			"dependencies": {
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 609,
+			"type": "boolean",
+			"name": "isRepresentant",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=2|3|4"
+				]
+			}
+		},
+		{
+			"id": 610,
+			"type": "PartInteresada",
+			"name": "representant",
+			"extend": "Persona",
+			"attributes": [
+				611,
+				612,
+				613,
+				614,
+				615,
+				616,
+				6160,
+				617,
+				618,
+				628
+			],
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"isRepresentant"
+				]
+			}
+		},
+		{
+			"id": 611,
+			"type": "text",
+			"name": "representant$nom",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"isRepresentant"
+				],
+				"visibility": [
+					"isRepresentant"
+				]
+			}
+		},
+		{
+			"id": 612,
+			"type": "text",
+			"name": "representant$primerCognom",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"isRepresentant"
+				],
+				"visibility": [
+					"isRepresentant"
+				]
+			}
+		},
+		{
+			"id": 613,
+			"type": "text",
+			"name": "representant$segonCognom",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"isRepresentant"
+				]
+			}
+		},
+		{
+			"id": 614,
+			"type": "boolean",
+			"name": "representant$tipusDocument",
+			"referenceData": "tipusDocument",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"isRepresentant"
+				],
+				"required": [
+					"isRepresentant"
+				]
+			}
+		},
+		{
+			"id": 615,
+			"type": "text",
+			"name": "representant$numIdentificacioNIF",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "documentInfractor"
+			},
+			"dependencies": {
+				"required": [
+					"representant$tipusDocument=2"
+				],
+				"visibility": [
+					"isRepresentant",
+					"representant$tipusDocument=2"
+				]
+			}
+		},
+		{
+			"id": 616,
+			"type": "text",
+			"name": "representant$numIdentificacio",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "documentInfractor"
+			},
+			"dependencies": {
+				"required": [
+					"representant$tipusDocument=1|3|4|5|6"
+				],
+				"visibility": [
+					"isRepresentant",
+					"representant$tipusDocument=1|3|4|5|6|7|8"
+				]
+			}
+		},
+		{
+			"id": 6160,
+			"type": "boolean",
+			"name": "representant$genere",
+			"referenceData": "genere",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"isRepresentant"
+				]
+			}
+		},
+		{
+			"id": 617,
+			"type": "text",
+			"name": "representant$email",
+			"validations": [],
+			"dependencies": {
+				"required": [
+					"isRepresentant"
+				],
+				"visibility": [
+					"isRepresentant"
+				]
+			},
+			"pattern": "^([_a-zA-Z0-9-ñÑçÇ]+(\\.[_a-zA-Z0-9-ñÑçÇ]+)*@[a-zA-Z0-9-ñÑçÇ]+(\\.[a-zA-Z0-9-ñÑçÇ]+)*(\\.[a-zA-ZñÑçÇ]{1,9}))?$"
+		},
+		{
+			"id": 618,
+			"type": "text",
+			"name": "representant$telefon",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"isRepresentant"
+				]
+			}
+		},
+		{
+			"id": 619,
+			"type": "text",
+			"name": "numIdentificacioCIF",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "identificador"
+			},
+			"dependencies": {
+				"required": [
+					"tipusDocumentJuridic=10"
+				],
+				"visibility": [
+					"tipusDocumentJuridic=10"
+				]
+			},
+			"master": {
+				"column": "numIdentificacioCIF",
+				"table": "organisme",
+				"involvedFields": [
+					"raoSocialEACAT"
+				]
+			}
+		},
+		{
+			"id": 4009,
+			"type": "text",
+			"name": "infractor$00001$numIdentificacioCIF",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "identificador"
+			},
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusDocumentJuridic=10"
+				],
+				"visibility": [
+					"infractor$00001$tipusDocumentJuridic=10"
+				]
+			}
+		},
+		{
+			"id": 620,
+			"type": "text",
+			"name": "numIdentificacioJuridico",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "identificador"
+			},
+			"dependencies": {
+				"required": [
+					"tipusPersona=2|3|4"
+				],
+				"visibility": [
+					"tipusPersona=2|3|4"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				],
+				"validationsList": [
+					{
+						"fields": [
+							"tipusDocumentJuridic=4"
+						],
+						"validations": [
+							"validatorNIFPJ"
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": 4010,
+			"type": "text",
+			"name": "infractor$00001$numIdentificacioJuridico",
+			"validations": [],
+			"decorator": {
+				"rule": "consolidable",
+				"target": "identificador"
+			},
+			"dependencies": {
+				"required": [
+					"infractor$00001$tipusDocumentJuridic=1|2|3|4|5"
+				],
+				"visibility": [
+					"infractor$00001$tipusDocumentJuridic=1|2|3|4|5"
+				]
+			}
+		},
+		{
+			"id": 621,
+			"type": "text",
+			"name": "tip",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"required": [
+					"rol=inspector"
+				],
+				"visibility": [
+					"rol=inspector"
+				]
+			}
+		},
+		{
+			"id": 622,
+			"type": "boolean",
+			"name": "genere",
+			"referenceData": "genere",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1"
+				]
+			}
+		},
+		{
+			"id": 623,
+			"type": "boolean",
+			"name": "idioma",
+			"referenceData": "idiomaComunicacio",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1|2|3|4"
+				],
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 624,
+			"type": "boolean",
+			"name": "volRebreMail",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1|2|3|4"
+				]
+			}
+		},
+		{
+			"id": 625,
+			"type": "text",
+			"name": "telefon",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1|2|3|4",
+					"organismeEACAT=false"
+				]
+			},
+			"pattern": "^[+]?([0-9]{9,15})$"
+		},
+		{
+			"id": 626,
+			"type": "boolean",
+			"name": "volRebreSMS",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"tipusPersona=1|2|3|4"
+				]
+			}
+		},
+		{
+			"id": 627,
+			"type": "text",
+			"name": "observacionsAdreca",
+			"validations": [
+				"maxlength=1000"
+			],
+			"dependencies": {
+				"disabled": [
+					"organismeEACAT=false"
+				]
+			}
+		},
+		{
+			"id": 628,
+			"type": "boolean",
+			"name": "representant$rolAcreditacio",
+			"referenceData": "rolAcreditacio",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"isRepresentant"
+				]
+			}
+		},
+		{
+			"id": 569,
+			"type": "boolean",
+			"name": "documentReconeixementEntregat",
+			"validations": []
+		},
+		{
+			"id": 570,
+			"type": "boolean",
+			"name": "sancio$reconeixement",
+			"validations": []
+		},
+		{
+			"id": 571,
+			"type": "boolean",
+			"name": "sancio$pagamentPerAvancat",
+			"validations": []
+		},
+		{
+			"id": 5701,
+			"type": "boolean",
+			"name": "sancio$aplicaReconeixement",
+			"validations": []
+		},
+		{
+			"id": 5711,
+			"type": "boolean",
+			"name": "sancio$aplicaPagamentPerAvancat",
+			"validations": []
+		},
+		{
+			"id": 57110,
+			"type": "boolean",
+			"name": "sancio$aplicaPagamentPerAvancatResolucio",
+			"validations": []
+		},
+		{
+			"id": 5712,
+			"type": "boolean",
+			"name": "params$booleanoTrue",
+			"validations": [],
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$aplicaReconeixement"
+				},
+				{
+					"rule": "consolidable",
+					"target": "sancio$aplicaPagamentPerAvancat"
+				}
+			]
+		},
+		{
+			"id": 5713,
+			"type": "boolean",
+			"name": "params$booleanoFalse",
+			"validations": [],
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$aplicaPagamentPerAvancat"
+				}
+			]
+		},
+		{
+			"id": 572,
+			"type": "numeric",
+			"name": "sancio$percBonificacioReconeixement",
+			"validations": []
+		},
+		{
+			"id": 5720,
+			"type": "numeric",
+			"name": "sancio$percBonificacioPagamentAvancat",
+			"validations": []
+		},
+		{
+			"id": 573,
+			"type": "numeric",
+			"name": "sancio$importTotalProposat",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura"
+					],
+					"formula": "sancio$importTotalProposatLectura"
+				},
+				"visibility": [
+					"sancio$reconeixement=false",
+					"sancio$pagamentPerAvancat=false"
+				]
+			}
+		},
+		{
+			"id": 5730,
+			"type": "numeric",
+			"name": "sancio$importTotalProposatReconeixement",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$percBonificacioReconeixement"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-(sancio$percBonificacioReconeixement*100)))/100"
+				},
+				"visibility": [
+					"sancio$reconeixement=true",
+					"sancio$pagamentPerAvancat=false"
+				]
+			}
+		},
+		{
+			"id": 57300,
+			"type": "numeric",
+			"name": "sancio$importTotalProposatPagamentPerAvancat",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$percBonificacioPagamentAvancat"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-(sancio$percBonificacioPagamentAvancat*100)))/100"
+				},
+				"visibility": [
+					"sancio$reconeixement=false",
+					"sancio$pagamentPerAvancat=true"
+				]
+			}
+		},
+		{
+			"id": 573000,
+			"type": "numeric",
+			"name": "sancio$importTotalProposatReconeixementiPagamentPerAvancat",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$percBonificacioReconeixement",
+						"sancio$percBonificacioPagamentAvancat"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-((sancio$percBonificacioReconeixement + sancio$percBonificacioPagamentAvancat)*100)))/100"
+				},
+				"visibility": [
+					"sancio$reconeixement=true",
+					"sancio$pagamentPerAvancat=true"
+				]
+			}
+		},
+		{
+			"id": 574,
+			"type": "numeric",
+			"name": "sancio$importTotalRequerit",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat",
+						"sancio$aplicaReconeixement",
+						"sancio$aplicaPagamentPerAvancat",
+						"sancio$percBonificacioReconeixement",
+						"sancio$percBonificacioPagamentAvancat",
+						"sancio$reconeixement",
+						"sancio$pagamentPerAvancat"
+					],
+					"formula": "(sancio$importTotalProposat*(100 - (sancio$percBonificacioReconeixement*100*sancio$aplicaReconeixement*sancio$reconeixement) - (sancio$percBonificacioPagamentAvancat*100*sancio$aplicaPagamentPerAvancat*sancio$pagamentPerAvancat)))/100"
+				},
+				"visibility": [
+				]
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioImportTotalRequerit"
+				}
+			]
+		},
+		{
+			"id": 5749,
+			"type": "numeric",
+			"name": "sancio$importTotalRequerit",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat",
+						"sancio$aplicaReconeixement",
+						"sancio$aplicaPagamentPerAvancatResolucio",
+						"sancio$percBonificacioReconeixement",
+						"sancio$percBonificacioPagamentAvancat",
+						"sancio$reconeixement",
+						"sancio$pagamentPerAvancat"
+					],
+					"formula": "(sancio$importTotalProposat*(100 - (sancio$percBonificacioReconeixement*100*sancio$aplicaReconeixement*sancio$reconeixement) - (sancio$percBonificacioPagamentAvancat*100*sancio$aplicaPagamentPerAvancatResolucio*sancio$pagamentPerAvancat)))/100"
+				},
+				"visibility": [
+				]
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioImportTotalRequerit"
+				}
+			]
+		},
+		{
+			"id": 5741,
+			"type": "numeric",
+			"name": "sancio$importTotalRequeritReconeixement",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$percBonificacioReconeixement"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-(sancio$percBonificacioReconeixement*100)))/100"
+				},
+				"visibility": [
+					"sancio$reconeixement=true",
+					"sancio$pagamentPerAvancat=false"
+				]
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioImportTotalRequerit"
+				}
+			]
+		},
+		{
+			"id": 57301,
+			"type": "numeric",
+			"name": "sancio$importTotalProposatReconeixementCalculado",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$percBonificacioReconeixement"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-(sancio$percBonificacioReconeixement*100)))/100"
+				},
+				"visibility": [
+					"sancio$reconeixement=true"
+				]
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioImportTotalRequerit"
+				}
+			]
+		},
+		{
+			"id": 505000,
+			"type": "numeric",
+			"name": "sancio$sumatorioImportTotalRequerit",
+			"validations": [
+				"validateDecimal=2"
+			]
+		},
+		{
+			"id": 505001,
+			"type": "numeric",
+			"name": "sancio$sumatorioInfraccionsProposatReconeixementResolucioRecurs",
+			"validations": [
+				"validateDecimal=2"
+			]
+		},
+		{
+			"id": 5742,
+			"type": "numeric",
+			"name": "sancio$importTotalRequeritSenseReconeixement",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura"
+					],
+					"formula": "sancio$importTotalProposatLectura"
+				},
+				"visibility": [
+					"sancio$reconeixement=false"
+				]
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioImportTotalRequerit"
+				}
+			]
+		},
+		{
+			"id": 574441,
+			"type": "numeric",
+			"name": "sancio$importTotalRequeritReconeixementiSensePagamentPerAvancat",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$percBonificacioReconeixement"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-(sancio$percBonificacioReconeixement*100)))/100"
+				},
+				"visibility": [
+					"sancio$reconeixement=true"
+				]
+			},
+			"decoratorArray": [
+				{
+					"rule": "consolidable",
+					"target": "sancio$sumatorioImportTotalRequerit"
+				}
+			]
+		},
+		{
+			"id": 57400,
+			"type": "numeric",
+			"name": "sancio$importTotalRequeritPagamentPerAvancat",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$percBonificacioPagamentAvancat"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-(sancio$percBonificacioPagamentAvancat*100)))/100"
+				},
+				"visibility": [
+					"sancio$reconeixement=false",
+					"sancio$pagamentPerAvancat=true"
+				]
+			}
+		},
+		{
+			"id": 574000,
+			"type": "numeric",
+			"name": "sancio$importTotalRequeritReconeixementiPagamentPerAvancat",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"sancio$percBonificacioReconeixement",
+						"sancio$percBonificacioPagamentAvancat"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-((sancio$percBonificacioReconeixement + sancio$percBonificacioPagamentAvancat)*100)))/100"
+				},
+				"visibility": [
+					"sancio$reconeixement=true",
+					"sancio$pagamentPerAvancat=true"
+				]
+			}
+		},
+		{
+			"id": 1164,
+			"documentId": 34,
+			"type": "document3",
+			"name": "acordInici$docNotificacioCartaPagament",
+			"multiple": true,
+			"validations": [
+				"required",
+				"certCopyDoc"
+			]
+		},
+		{
+			"id": 1165,
+			"documentId": 34,
+			"type": "document3",
+			"name": "propostaResolucio$docNotificacioCartaPagament",
+			"multiple": true,
+			"validations": [
+				"required",
+				"certCopyDoc"
+			]
+		},
+		{
+			"id": 5740,
+			"type": "data",
+			"name": "sancio$dataRecepcioReconeixement",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 5740100,
+			"type": "text",
+			"name": "sancio$dataRecepcioReconeixementLectura",
+			"validations": []
+		},
+		{
+			"id": 575,
+			"type": "numeric",
+			"name": "importTotalRequeritIVA",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalRequerit",
+						"percentatgeIVA"
+					],
+					"formula": "sancio$importTotalRequerit*percentatgeIVA"
+				}
+			}
+		},
+		{
+			"id": 576,
+			"type": "numeric",
+			"name": "percentatgeIVA",
+			"validations": []
+		},
+		{
+			"id": 390,
+			"type": "text",
+			"name": "antecedents",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 391,
+			"type": "text",
+			"name": "resumActuacionsPracticades",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 392,
+			"type": "text",
+			"name": "resumActuacionsPresentades",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 393,
+			"type": "text",
+			"name": "resumInformesEmesos",
+			"validations": []
+		},
+		{
+			"id": 394,
+			"type": "text",
+			"name": "resumProvesPracticades",
+			"validations": []
+		},
+		{
+			"id": 395,
+			"type": "text",
+			"name": "fetsConsiderenProvats",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 397,
+			"type": "boolean",
+			"name": "qualificacioJuridica",
+			"referenceData": "qualificacioJuridica",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 398,
+			"type": "text",
+			"name": "determinacioInfraccions",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 399,
+			"type": "boolean",
+			"name": "determincacioPersonesInfractores",
+			"referenceData": "determincacioPersonesInfractores",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 400,
+			"type": "text",
+			"name": "determinacioSancions",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 401,
+			"type": "boolean",
+			"name": "fonamentDret",
+			"referenceData": "fonamentDret",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 402,
+			"name": "infraccioRevesteixMajorGravetat",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 403,
+			"type": "text",
+			"name": "danysPerjudicis",
+			"validations": []
+		},
+		{
+			"id": 41000,
+			"type": "PropostaResolucio",
+			"name": "propostaResolucio",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				41001,
+				41002,
+				41003,
+				41004,
+				41005,
+				41006
+			]
+		},
+		{
+			"id": 41001,
+			"type": "number",
+			"name": "propostaResolucio$tipus",
+			"referenceData": "tipusResolucio",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 41002,
+			"type": "numeric",
+			"name": "propostaResolucio$import",
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat"
+					],
+					"formula": "sancio$importTotalProposat*1"
+				}
+			},
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 41003,
+			"type": "data",
+			"name": "propostaResolucio$data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 41003000,
+			"type": "text",
+			"name": "propostaResolucio$dataLectura",
+			"validations": []
+		},
+		{
+			"id": 41004,
+			"type": "number",
+			"name": "propostaResolucio$sentit",
+			"referenceData": "sentitResolucio",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 409001,
+			"type": "text",
+			"name": "propostaResolucio$sentitLabel",
+			"validations": []
+		},
+		{
+			"id": 41005,
+			"type": "text",
+			"name": "propostaResolucio$observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 41006,
+			"type": "document3",
+			"documentId": 281,
+			"name": "propostaResolucio$document",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 40004,
+			"type": "Resolucio",
+			"name": "resolucio",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				404,
+				407,
+				408,
+				409,
+				160,
+				1160
+			]
+		},
+		{
+			"id": 404,
+			"type": "number",
+			"name": "resolucio$tipus",
+			"referenceData": "tipusResolucio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 409011,
+			"type": "text",
+			"name": "resolucio$tipusLabel",
+			"validations": []
+		},
+		{
+			"id": 405,
+			"type": "text",
+			"name": "sancioNoPecunariaResolucio",
+			"validations": []
+		},
+		{
+			"id": 406,
+			"type": "text",
+			"name": "sancionsAccessories",
+			"validations": []
+		},
+		{
+			"id": 407,
+			"type": "numeric",
+			"name": "resolucio$importSancio",
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat"
+					],
+					"formula": "sancio$importTotalProposat*1"
+				}
+			},
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 408,
+			"type": "data",
+			"name": "resolucio$dataResolucio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 409,
+			"type": "boolean",
+			"name": "resolucio$sentitResolucio",
+			"referenceData": "sentitResolucio",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 409000,
+			"type": "text",
+			"name": "resolucio$sentitResolucioLabel",
+			"validations": []
+		},
+		{
+			"id": 4409,
+			"type": "document3",
+			"name": "documentResolucio",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 410,
+			"type": "boolean",
+			"name": "sacompanyaResolucioRequerimentPagament",
+			"validations": []
+		},
+		{
+			"id": 411,
+			"type": "data",
+			"name": "dataCaducitatExpedient",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 4110,
+			"type": "data",
+			"name": "dataPracticaNotificacioAcordInici",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 412,
+			"type": "data",
+			"name": "dataPreinscripcioInfraccio",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 567,
+			"type": "document3",
+			"name": "documentAdjuntResolucio",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 160,
+			"type": "text",
+			"name": "resolucio$observacionsResolucio",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 1160,
+			"type": "document3",
+			"documentId": 1,
+			"name": "resolucio$docResolucio",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 419,
+			"type": "ActuacionsComplementaries",
+			"name": "actuacionsComplementaries",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				420,
+				421,
+				422,
+				423,
+				424,
+				425
+			]
+		},
+		{
+			"id": 420,
+			"type": "text",
+			"name": "actuacionsComplementaries$motivacioActuacioComplementaria",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 421,
+			"type": "data",
+			"name": "actuacionsComplementaries$dataRealitzacioActuacioComplementaria",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 422,
+			"type": "text",
+			"name": "actuacionsComplementaries$detallActuacioComplementaria",
+			"validations": [
+				"required",
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 423,
+			"type": "text",
+			"name": "actuacionsComplementaries$resultatActuacioComplementaria",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 424,
+			"type": "data",
+			"name": "actuacionsComplementaries$terminiRealitzarActuacionsComplementaries",
+			"validations": []
+		},
+		{
+			"id": 425,
+			"type": "text",
+			"name": "actuacionsComplementaries$observacionsActuacionsComplementaries",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 426,
+			"type": "ActuacionsComplementariesProposta",
+			"name": "actuacionsComplementariesProposta",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				420,
+				421,
+				422,
+				423,
+				424,
+				425
+			]
+		},
+		{
+			"id": 427,
+			"type": "text",
+			"name": "actuacionsComplementariesProposta$motivacioActuacioComplementaria",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 428,
+			"type": "data",
+			"name": "actuacionsComplementariesProposta$dataRealitzacioActuacioComplementaria",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 429,
+			"type": "text",
+			"name": "actuacionsComplementariesProposta$detallActuacioComplementaria",
+			"validations": [
+				"required",
+				"maxlength=10000"
+			]
+		},
+		{
+			"id": 430,
+			"type": "text",
+			"name": "actuacionsComplementariesProposta$resultatActuacioComplementaria",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 431,
+			"type": "data",
+			"name": "actuacionsComplementariesProposta$terminiRealitzarActuacionsComplementaries",
+			"validations": []
+		},
+		{
+			"id": 432,
+			"type": "text",
+			"name": "actuacionsComplementariesProposta$observacionsActuacionsComplementaries",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 433,
+			"type": "boolean",
+			"name": "reconeixementInfraccioProposta",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 434,
+			"type": "boolean",
+			"name": "sancio$pagamentPerAvancatProposta",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 435,
+			"type": "numeric",
+			"name": "bonificacioPperReconeixementProposta",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 436,
+			"type": "numeric",
+			"name": "bonificacioPerPagamentAvancatProposta",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 438,
+			"type": "numeric",
+			"name": "importTotalProposatProposta",
+			"validations": [
+				"required"
+			],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura"
+					],
+					"formula": "sancio$importTotalProposatLectura"
+				},
+				"visibility": [
+					"reconeixementInfraccioProposta=false",
+					"pagamentPerAvancatProposta=false"
+				]
+			}
+		},
+		{
+			"id": 4380,
+			"type": "numeric",
+			"name": "importTotalProposatReconeixementProposta",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"bonificacioPperReconeixementProposta"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-(bonificacioPperReconeixementProposta*100)))/100"
+				},
+				"visibility": [
+					"reconeixementInfraccioProposta=true",
+					"pagamentPerAvancatProposta=false"
+				]
+			}
+		},
+		{
+			"id": 43800,
+			"type": "numeric",
+			"name": "importTotalProposatAvancatProposta",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"bonificacioPerPagamentAvancatProposta"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-(bonificacioPerPagamentAvancatProposta*100)))/100"
+				},
+				"visibility": [
+					"reconeixementInfraccioProposta=false",
+					"pagamentPerAvancatProposta=true"
+				]
+			}
+		},
+		{
+			"id": 438000,
+			"type": "numeric",
+			"name": "importTotalProposatReconeixementiAvancatProposta",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposatLectura",
+						"bonificacioPperReconeixementProposta",
+						"bonificacioPerPagamentAvancatProposta"
+					],
+					"formula": "(sancio$importTotalProposatLectura*(100-((bonificacioPperReconeixementProposta + bonificacioPerPagamentAvancatProposta)*100)))/100"
+				},
+				"visibility": [
+					"reconeixementInfraccioProposta=true",
+					"pagamentPerAvancatProposta=true"
+				]
+			}
+		},
+		{
+			"id": 439,
+			"type": "numeric",
+			"name": "importTotalRequeritProposta",
+			"validations": [
+				"required"
+			],
+			"currency": "€"
+		},
+		{
+			"id": 440,
+			"type": "numeric",
+			"name": "importTotalRequeritIVAProposta",
+			"validations": [],
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"importTotalRequeritProposta",
+						"percentatgeIVA"
+					],
+					"formula": "importTotalRequeritProposta*percentatgeIVA"
+				}
+			}
+		},
+		{
+			"id": 150,
+			"type": "text",
+			"name": "expedient$observacionsFi",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 1500,
+			"type": "data",
+			"name": "expedient$dataTancament",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 1400,
+			"type": "TrasllatExpedient",
+			"name": "trasllatExpedient",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				140,
+				141,
+				142,
+				143,
+				144,
+				145,
+				146
+			]
+		},
+		{
+			"id": 140,
+			"type": "text",
+			"name": "jutjat",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 141,
+			"type": "data",
+			"name": "data",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 141000,
+			"type": "text",
+			"name": "dataLectura",
+			"validations": []
+		},
+		{
+			"id": 142,
+			"type": "text",
+			"name": "motivacio",
+			"validations": []
+		},
+		{
+			"id": 143,
+			"type": "data",
+			"name": "dataRecepcioResolucioJutjat",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 143000,
+			"type": "text",
+			"name": "dataRecepcioResolucioJutjatLectura",
+			"validations": []
+		},
+		{
+			"id": 144,
+			"type": "data",
+			"name": "dataResolucio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 144000,
+			"type": "text",
+			"name": "dataResolucioLectura",
+			"validations": []
+		},
+		{
+			"id": 145,
+			"type": "boolean",
+			"name": "sentitResolucioJutjat",
+			"referenceData": "sentitResolucioJutjat",
+			"validations": []
+		},
+		{
+			"id": 146,
+			"type": "text",
+			"name": "observacions",
+			"validations": []
+		},
+		{
+			"id": 147,
+			"type": "document3",
+			"name": "document",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 1700,
+			"type": "TramitAudiencia",
+			"name": "tramitAudiencia",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				170,
+				171,
+				172,
+				173
+			]
+		},
+		{
+			"id": 170,
+			"type": "data",
+			"name": "dataInici",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},	
+		{
+			"id": 170000,
+			"type": "text",
+			"name": "dataIniciLectura",
+			"validations": []
+		},
+		{
+			"id": 171,
+			"type": "data",
+			"name": "dataFi",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},		
+		{
+			"id": 171000,
+			"type": "text",
+			"name": "dataFiLectura",
+			"validations": []
+		},
+		{
+			"id": 172,
+			"type": "boolean",
+			"name": "motivacio",
+			"referenceData": "motivacioTramitAudiencia",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 1720,
+			"type": "text",
+			"name": "motivacioLabel",
+			"validations": []
+		},
+		{
+			"id": 173,
+			"type": "text",
+			"name": "observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 174,
+			"type": "document3",
+			"name": "document",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 1800,
+			"type": "SuspensioRepresaExpedient",
+			"name": "suspensioRepresaExpedient",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				180,
+				181,
+				182,
+				183,
+				184,
+				185
+			]
+		},
+		{
+			"id": 180,
+			"type": "data",
+			"name": "dataAcordSuspensio",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 180000,
+			"type": "text",
+			"name": "dataAcordSuspensioLectura",
+			"validations": []
+		},
+		{
+			"id": 181,
+			"type": "boolean",
+			"name": "motivacioSuspensio",
+			"referenceData": "motivacioSuspensioExpedient",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 1810,
+			"type": "text",
+			"name": "motivacioSuspensioLabel",
+			"validations": []
+		},
+		{
+			"id": 182,
+			"type": "data",
+			"name": "dataRepresa",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 182000,
+			"type": "text",
+			"name": "dataRepresaLectura",
+			"validations": []
+		},
+		{
+			"id": 183,
+			"type": "boolean",
+			"name": "motivacioRepresa",
+			"referenceData": "motivacioRepresaExpedient",
+			"validations": [],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 1830,
+			"type": "text",
+			"name": "motivacioRepresaLabel",
+			"validations": []
+		},
+		{
+			"id": 184,
+			"type": "text",
+			"name": "observacions",
+			"validations": []
+		},
+		{
+			"id": 185,
+			"type": "document3",
+			"name": "document",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 2200,
+			"type": "Recurs",
+			"name": "recurs",
+			"multiple": true,
+			"extend": "EntitatProcedimental",
+			"attributes": [
+				220,
+				221,
+				222,
+				223,
+				224,
+				225,
+				226,
+				227,
+				228,
+				229,
+				230,
+				232,
+				233,
+				234,
+				235,
+				236,
+				237,
+				238,
+				239
+			]
+		},
+		{
+			"id": 220,
+			"type": "boolean",
+			"name": "canalEntradaRecurs",
+			"referenceData": "canalEntradaRecurs",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 220000,
+			"type": "text",
+			"name": "canalEntradaRecursLabel",
+			"validations": []
+		},
+		{
+			"id": 221,
+			"type": "data",
+			"name": "dataRegistreEntradaRecurs",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 221000,
+			"type": "text",
+			"name": "dataRegistreEntradaRecursLectura",
+			"validations": []
+		},
+		{
+			"id": 222,
+			"type": "text",
+			"name": "numeroRegistreEntradaRecurs",
+			"validations": []
+		},
+		{
+			"id": 223,
+			"type": "text",
+			"name": "codiIdentificadorRecurs",
+			"validations": []
+		},
+		{
+			"id": 224,
+			"type": "text",
+			"name": "codiRecursSancionador",
+			"validations": []
+		},
+		{ 
+			"id": 225,
+			"type": "boolean",
+			"name": "quiInterposaRecurs",
+			"referenceData": "partsInteressades",
+			"validations": []
+		},
+		{
+			"id": 225000,
+			"type": "text",
+			"name": "quiInterposaRecursLabel",
+			"validations": []
+		},
+		{
+			"id": 226,
+			"type": "boolean",
+			"name": "motivacioRecurs",
+			"referenceData": "motivacioRecurs",
+			"validations": []
+		},
+		{
+			"id": 226000,
+			"type": "text",
+			"name": "motivacioRecursLabel",
+			"validations": []
+		},
+		{
+			"id": 227,
+			"type": "boolean",
+			"name": "tipusRecurs",
+			"referenceData": "tipusRecursAlç",
+			"validations": []
+		},
+		{
+			"id": 227000,
+			"type": "text",
+			"name": "tipusRecursLabel",
+			"validations": []
+		},
+		{
+			"id": 228,
+			"name": "recursDinsTermini",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 228000,
+			"type": "text",
+			"name": "recursDinsTerminiLabel",
+			"validations": []
+		},
+		{
+			"id": 229,
+			"type": "text",
+			"name": "resumRecursosPrevis",
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 230,
+			"type": "data",
+			"name": "dataInformeAssesoriaJuridica",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 230000,
+			"type": "text",
+			"name": "dataInformeAssesoriaJuridicaLectura",
+			"validations": []
+		},
+		{
+			"id": 231,
+			"name": "sentitInformeAssessoriaJuridica",
+			"type": "boolean",
+			"referenceData": "sentitResolucio",
+			"validations": []
+		},
+		{
+			"id": 231000,
+			"type": "text",
+			"name": "sentitInformeAssessoriaJuridicaLabel",
+			"validations": []
+		},
+		{
+			"id": 232,
+			"name": "sollicitarActuacionsComplementaries",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 233,
+			"name": "implicaSuspensio",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 234,
+			"type": "text",
+			"name": "fonamentsResposta",
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 2345,
+			"type": "text",
+			"name": "resumEstudiRecursActual",
+			"validations": [
+				"maxlength=30000"
+			]
+		},
+		{
+			"id": 235,
+			"name": "sEstimaRecurs",
+			"type": "boolean",
+			"validations": []
+		},
+		{
+			"id": 236,
+			"name": "sentitResolucio",
+			"type": "boolean",
+			"referenceData": "sentitResolucio",
+			"validations": []
+		},
+		{
+			"id": 236000,
+			"type": "text",
+			"name": "sentitResolucioLabel",
+			"validations": []
+		},
+		{
+			"id": 237,
+			"type": "data",
+			"name": "dataResolucio",
+			"validations": [],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 237000,
+			"type": "text",
+			"name": "dataResolucioLectura",
+			"validations": []
+		},
+		{
+			"id": 238,
+			"type": "text",
+			"name": "observacions",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 2381,
+			"type": "text",
+			"name": "resolucioRecurs$observacionsRecurs",
+			"validations": [
+				"maxlength=1000"
+			]
+		},
+		{
+			"id": 2275,
+			"type": "boolean",
+			"name": "resolucioRecurs$tipusRecurs",
+			"referenceData": "tipusRecursAlç",
+			"decorator": {
+				"rule": "referenceData"
+			},
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 2361,
+			"name": "resolucioRecurs$sentitResolucio",
+			"type": "boolean",
+			"referenceData": "sentitResolucio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "referenceData"
+			}
+		},
+		{
+			"id": 2371,
+			"type": "data",
+			"name": "resolucioRecurs$dataResolucio",
+			"validations": [
+				"required"
+			],
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			}
+		},
+		{
+			"id": 242,
+			"type": "document3",
+			"documentId": 65,
+			"name": "resolucioRecurs$informeResolucio",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 243,
+			"type": "document3",
+			"name": "resolucioRecurs$altresDocs",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 244,
+			"type": "document3",
+			"documentId": 260,
+			"name": "resolucioRecurs$docNotificacio",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 241,
+			"type": "document3",
+			"documentId": 6,
+			"name": "resolucioRecurs$documentResolucio",
+			"multiple": true,
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 240,
+			"type": "numeric",
+			"name": "resolucioRecurs$importResolucio",
+			"currency": "€",
+			"dependencies": {
+				"calculation": {
+					"fields": [
+						"sancio$importTotalProposat"
+					],
+					"formula": "sancio$importTotalProposat*1"
+				}
+			},
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 239,
+			"type": "document3",
+			"documentId": 6,
+			"name": "documentRecurs",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 1600,
+			"type": "Pagament",
+			"name": "pagament",
+			"attributes": [
+				1601,
+				1602,
+				1603,
+				1604,
+				1605,
+				1608,
+				1609,
+				1610,
+				1611
+			]
+		},
+		{
+			"id": 1601,
+			"type": "numeric",
+			"name": "pagament$importTotal",
+			"validations": [],
+			"currency": "€"
+		},
+		{
+			"id": 1602,
+			"type": "text",
+			"name": "pagament$numReferenciaPagament",
+			"validations": []
+		},
+		{
+			"id": 1603,
+			"type": "numeric",
+			"name": "pagament$importPagat",
+			"validations": [],
+			"currency": "€"
+		},
+		{
+			"id": 1604,
+			"type": "data",
+			"name": "pagament$dataPagament",
+			"decorator": {
+				"rule": "dateFormat",
+				"target": "dd/MM/yyyy"
+			},
+			"validations": []
+		},
+		{
+			"id": 1604000,
+			"type": "text",
+			"name": "pagament$dataPagamentLectura",
+			"validations": []
+		},
+		{
+			"id": 1605,
+			"type": "document3",
+			"name": "pagament$cartaPagament",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 1606,
+			"type": "Ingres",
+			"name": "pagament$ingresAutoliquidacio",
+			"attributes": [
+				1612,
+				1613,
+				1614,
+				1615,
+				1616,
+				1617,
+				1618,
+				1619,
+				1620,
+				1621,
+				1622,
+				1623
+			]
+		},
+		{
+			"id": 1607,
+			"type": "Ingres",
+			"name": "pagament$ingresLiquidacio",
+			"attributes": [
+				1624,
+				1625,
+				1626,
+				1627,
+				1628,
+				1629,
+				1630,
+				1631,
+				1632,
+				1633,
+				1634,
+				1635
+			]
+		},
+		{
+			"id": 1608,
+			"type": "Notificacio",
+			"name": "pagament$notificacioCartaPagamentLiquidacio",
+			"attributes": [
+				1636,
+				1637,
+				1638,
+				1639,
+				1640,
+				1641,
+				1642,
+				1643,
+				1644,
+				1645,
+				1646
+			]
+		},
+		{
+			"id": 1609,
+			"type": "Notificacio",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio",
+			"attributes": [
+				1647,
+				1648,
+				1649,
+				1650,
+				1651,
+				1652,
+				1653,
+				1654,
+				1655,
+				1656,
+				1657
+			]
+		},
+		{
+			"id": 1610,
+			"type": "boolean",
+			"name": "pagament$fase",
+			"referenceData": "fase",
+			"validations": []
+		},
+		{
+			"id": 1611,
+			"type": "text",
+			"name": "pagament$estat",
+			"referenceData": "estatPagament",
+			"decorator": {
+				"rule": "referenceData"
+			},
+			"validations": []
+		},
+		{
+			"id": 1611000,
+			"type": "text",
+			"name": "pagament$estatLabel",
+			"validations": []
+		},
+		{
+			"id": 1612,
+			"type": "text",
+			"name": "pagament$ingresAutoliquidacio$numReferenciaPagament",
+			"validations": []
+		},
+		{
+			"id": 1613,
+			"type": "document3",
+			"name": "pagament$ingresAutoliquidacio$cartaPagament",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 1614,
+			"type": "numeric",
+			"name": "pagament$ingresAutoliquidacio$importRequeritTotal",
+			"validations": [],
+			"currency": "€"
+		},
+		{
+			"id": 1615,
+			"type": "numeric",
+			"name": "pagament$ingresAutoliquidacio$importPendentDePagar",
+			"validations": [],
+			"currency": "€"
+		},
+		{
+			"id": 1616,
+			"type": "numeric",
+			"name": "pagament$ingresAutoliquidacio$importPagat",
+			"validations": [],
+			"currency": "€"
+		},
+		{
+			"id": 1617,
+			"type": "data",
+			"name": "pagament$ingresAutoliquidacio$dataPagament",
+			"validations": []
+		},
+		{
+			"id": 1618,
+			"type": "boolean",
+			"name": "pagament$ingresAutoliquidacio$estat",
+			"referenceData": "estatIngres",
+			"validations": []
+		},
+		{
+			"id": 1619,
+			"type": "boolean",
+			"name": "pagament$ingresAutoliquidacio$formaPagament",
+			"referenceData": "formaPagament",
+			"validations": []
+		},
+		{
+			"id": 1620,
+			"type": "data",
+			"name": "pagament$ingresAutoliquidacio$dataVenciment",
+			"validations": []
+		},
+		{
+			"id": 1621,
+			"type": "data",
+			"name": "pagament$ingresAutoliquidacio$dataAnulacio",
+			"validations": []
+		},
+		{
+			"id": 1622,
+			"type": "data",
+			"name": "pagament$ingresAutoliquidacio$dataSuspensio",
+			"validations": []
+		},
+		{
+			"id": 1623,
+			"type": "text",
+			"name": "pagament$ingresAutoliquidacio$observacions",
+			"validations": []
+		},
+		{
+			"id": 1624,
+			"type": "text",
+			"name": "pagament$ingresLiquidacio$numReferenciaPagament",
+			"validations": []
+		},
+		{
+			"id": 1625,
+			"type": "document3",
+			"name": "pagament$ingresLiquidacio$cartaPagament",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 1626,
+			"type": "numeric",
+			"name": "pagament$ingresLiquidacio$importRequeritTotal",
+			"validations": [],
+			"currency": "€"
+		},
+		{
+			"id": 1627,
+			"type": "numeric",
+			"name": "pagament$ingresLiquidacio$importPendentDePagar",
+			"validations": [],
+			"currency": "€"
+		},
+		{
+			"id": 1628,
+			"type": "numeric",
+			"name": "pagament$ingresLiquidacio$importPagat",
+			"validations": [],
+			"currency": "€"
+		},
+		{
+			"id": 1629,
+			"type": "data",
+			"name": "pagament$ingresLiquidacio$dataPagament",
+			"validations": []
+		},
+		{
+			"id": 1630,
+			"type": "boolean",
+			"name": "pagament$ingresLiquidacio$estat",
+			"referenceData": "estatIngres",
+			"validations": []
+		},
+		{
+			"id": 163001,
+			"type": "text",
+			"name": "pagament$infraccio$ingresAutoliquidacio$estatLabel",
+			"validations": []
+		},
+		{
+			"id": 163002,
+			"type": "text",
+			"name": "pagament$infraccio$ingresLiquidacio$estatLabel",
+			"validations": []
+		},
+		{
+			"id": 1631,
+			"type": "boolean",
+			"name": "pagament$ingresLiquidacio$formaPagament",
+			"referenceData": "formaPagament",
+			"validations": []
+		},
+		{
+			"id": 1632,
+			"type": "data",
+			"name": "pagament$ingresLiquidacio$dataVenciment",
+			"validations": []
+		},
+		{
+			"id": 1633,
+			"type": "data",
+			"name": "pagament$ingresLiquidacio$dataAnulacio",
+			"validations": []
+		},
+		{
+			"id": 1634,
+			"type": "data",
+			"name": "pagament$ingresLiquidacio$dataSuspensio",
+			"validations": []
+		},
+		{
+			"id": 1635,
+			"type": "text",
+			"name": "pagament$ingresLiquidacio$observacions",
+			"validations": []
+		},
+		{
+			"id": 1636,
+			"type": "text",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$adreçaRemitent",
+			"validations": []
+		},
+		{
+			"id": 1637,
+			"type": "text",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$missatge",
+			"validations": []
+		},
+		{
+			"id": 1638,
+			"type": "boolean",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$idiomaNotificacio",
+			"referenceData": "idiomaNotificacio",
+			"validations": []
+		},
+		{
+			"id": 1639,
+			"type": "data",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$dataDiposit",
+			"validations": []
+		},
+		{
+			"id": 1640,
+			"type": "data",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$dataAvisRebudaNotificacio",
+			"validations": []
+		},
+		{
+			"id": 1641,
+			"type": "boolean",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$canalNotificacio",
+			"referenceData": "canalNotificacio",
+			"validations": []
+		},
+		{
+			"id": 1642,
+			"type": "boolean",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$actaANotificar",
+			"referenceData": "actaANotificar",
+			"validations": []
+		},
+		{
+			"id": 1643,
+			"type": "document3",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$evidencia",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 1644,
+			"type": "boolean",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$assumpte",
+			"referenceData": "assumpte",
+			"validations": []
+		},
+		{
+			"id": 1645,
+			"type": "data",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$dataPractica",
+			"validations": []
+		},
+		{
+			"id": 1646,
+			"type": "document3",
+			"name": "pagament$notificacioCartaPagamentLiquidacio$documentacioAAdjuntar",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 1647,
+			"type": "text",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$adreçaRemitent",
+			"validations": []
+		},
+		{
+			"id": 1648,
+			"type": "text",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$missatge",
+			"validations": []
+		},
+		{
+			"id": 1649,
+			"type": "boolean",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$idiomaNotificacio",
+			"referenceData": "idiomaNotificacio",
+			"validations": []
+		},
+		{
+			"id": 1650,
+			"type": "data",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$dataDiposit",
+			"validations": []
+		},
+		{
+			"id": 1651,
+			"type": "data",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$dataAvisRebudaNotificacio",
+			"validations": []
+		},
+		{
+			"id": 1652,
+			"type": "boolean",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$canalNotificacio",
+			"referenceData": "canalNotificacio",
+			"validations": []
+		},
+		{
+			"id": 1653,
+			"type": "boolean",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$actaANotificar",
+			"referenceData": "actaANotificar",
+			"validations": []
+		},
+		{
+			"id": 1654,
+			"type": "document3",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$evidencia",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 1655,
+			"type": "boolean",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$assumpte",
+			"referenceData": "assumpte",
+			"validations": []
+		},
+		{
+			"id": 1656,
+			"type": "data",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$dataPractica",
+			"validations": []
+		},
+		{
+			"id": 1657,
+			"type": "document3",
+			"name": "pagament$notificacioCartaPagamentAutoliquidacio$documentacioAAdjuntar",
+			"multiple": false,
+			"validations": []
+		},
+		{
+			"id": 99,
+			"type": "MesuraProvisional",
+			"name": "mesuraProvisionalList",
+			"attributes": [
+				100,
+				101,
+				102,
+				103,
+				1102,
+				1103,
+				104,
+				1104,
+				1105,
+				105,
+				106,
+				107,
+				1106,
+				1107,
+				1108,
+				1109,
+				1110,
+				108
+			],
+			"multiple": "true",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 6000,
+			"type": "Alegacions",
+			"name": "alegacions",
+			"attributes": [
+				301,
+				3001,
+				5055,
+				30471,
+				30470,
+				302,
+				303,
+				304,
+				305,
+				306,
+				3070,
+				308,
+				3009,
+				310,
+				311,
+				307,
+				313,
+				314,
+				3014,
+				315,
+				316,
+				317,
+				318,
+				319,
+				99999,
+				3015
+			],
+			"multiple": "true",
+			"validations": []
+		},
+		{
+			"id": 6001,
+			"type": "PracticaProves",
+			"name": "practicaProves",
+			"attributes": [
+				330,
+				331,
+				332,
+				333,
+				335,
+				336,
+				337,
+				338,
+				339,
+				340,
+				341,
+				2100,
+				2016,
+				2017,
+				2018,
+				2019,
+				2020,
+				2021,
+				2022,
+				2023,
+				2024,
+				2026,
+				2028,
+				2029,
+				2030,
+				2031,
+				2032,
+				342,
+				343,
+				348,
+				345,
+				346,
+				347,
+				3047,
+				3048
+			],
+			"multiple": "true",
+			"validations": []
+		},
+		{
+			"id": 6002,
+			"type": "Informes",
+			"name": "informe",
+			"attributes": [
+				360,
+				3060,
+				361,
+				362,
+				363,
+				364,
+				365,
+				366,
+				367,
+				368,
+				370,
+				371,
+				372,
+				373,
+				374,
+				375,
+				380,
+				381,
+				382
+			],
+			"multiple": "true",
+			"validations": []
+		},
+		{
+			"id": 6003,
+			"type": "trasllatJutjat",
+			"name": "trasllatJutjat",
+			"attributes": [
+				140,
+				141,
+				142,
+				143,
+				144,
+				145,
+				146,
+				147
+			],
+			"multiple": "true",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 6004,
+			"type": "tramitAudiencia",
+			"name": "tramitAudiencia",
+			"attributes": [
+				170,
+				171,
+				172,
+				173,
+				174
+			],
+			"multiple": "true",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 6005,
+			"type": "suspensio",
+			"name": "suspensio",
+			"attributes": [
+				180,
+				181,
+				182,
+				183,
+				184,
+				185
+			],
+			"multiple": "true",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 6006,
+			"type": "recursos",
+			"name": "altresRecursos",
+			"attributes": [
+				220,
+				221,
+				222,
+				223,
+				224,
+				225,
+				226,
+				227,
+				2270,
+				228,
+				229,
+				230,
+				231,
+				232,
+				233,
+				234,
+				235,
+				236,
+				237,
+				238,
+				239,
+				2390,
+				22001,
+				22002,
+				22003,
+				22004,
+				22008
+			],
+			"multiple": "true",
+			"validations": [
+				"required"
+			]
+		},
+		{
+			"id": 6101,
+			"type": "text",
+			"name": "preferredLanguage",
+			"validations": []
+		},
+		{
+			"id": 6102,
+			"type": "text",
+			"name": "preferredLanguageId",
+			"validations": []
+		},
+		{
+			"id": 30405,
+			"type": "document3",
+			"name": "alegacionsProposta$documentAlegacioRelacionada",
+			"multiple": true,
+			"validations": []
+		},
+		{
+			"id": 514,
+			"type": "boolean",
+			"referenceData": "tipusInfraccio",
+			"name": "infraccio$tipus",
+			"validations": [
+				"required"
+			],
+			"dependencies": {
+				"visibility": [
+					"infraccio"
+				]
+			}
+		},
+		{
+			"id": 904,
+			"type": "boolean",
+			"name": "adreca$comarca",
+			"referenceData": "comarques",
+			"validations": [],
+			"dependencies": {
+				"visibility": [
+					"organismeEACAT=false"
+				],
+				"binding": [
+					"adreca$municipi"
+				],
+				"referenceDataBinding": [
+					"municipis"
+				],
+				"disabled": [
+					"adreca$municipi"
+				],
+				"required": [
+					"adreca$municipi="
+				]
+			}
+		}
+	]
+}
