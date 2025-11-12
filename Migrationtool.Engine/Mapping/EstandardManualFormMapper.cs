@@ -22,258 +22,78 @@ namespace MigrationTool.Engine.Mapping
 
         public JObject? Map(JObject legacy)
         {
-            // 1) Localizar el bloque de formulario dentro de nodes[*].config.forms[*]
-            var forms = legacy.SelectTokens("$.nodes[*].config.forms[*]").OfType<JObject>().ToList();
-            if (forms.Count == 0)
-                return BuildShellWithEmptyForm("No forms array under any node's config.forms");
+            // Validación básica: asegurarnos de que viene de la familia adecuada si quieres
+            // pero para este bloque nos vale con construir el form objetivo.
 
-            // Encuentra el 'node' al que pertenece cada form usando Ancestors()
-            JObject? formBlock = null;
+            var form = BuildTargetForm(_catalogs);
 
-            foreach (var f in forms)
-            {
-                // Sube hasta el JObject 'node' que tiene { name, type, config, ... }
-                var node = f.Ancestors()
-                            .OfType<JObject>()
-                            .FirstOrDefault(o =>
-                                o["name"] != null &&
-                                o["config"] is JObject cfg &&
-                                cfg["forms"] != null);
+            // Envuelve con tu shell estándar (usa tu método existente):
+            var root = BuildShellWithForm(new List<JObject>()); // crea shell vacío
+                                                                // Inserta nuestro form objetivo dentro:
+            root["data"]["configForm"]["form"] = form;
+            // Ajusta nombre/description si quieres:
+            root["name"] = "Dades de la part interessada";
+            root["description"] = "Form generat (parts interessades)";
 
-                var nodeName = node?["name"]?.ToString() ?? "";
-                var cfg = node?["config"] as JObject;
-                var subType = cfg?["activitySubtype"]?.ToString()
-                             ?? cfg?["acivitySubtype"]?.ToString(); // legacy typo a veces
-
-                // Criterios de selección:
-                // - subtype == partsInteressades
-                // - o el name contiene partsInteressades (como tu ejemplo FEM_partsInteressades_gestioPartsInteressades)
-                if (string.Equals(subType, "partsInteressades", StringComparison.OrdinalIgnoreCase)
-                    || nodeName.IndexOf("partsInteressades", StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    formBlock = f;
-                    // Diagnóstico opcional
-                    Console.WriteLine($"[FOUND] node='{nodeName}', activitySubtype='{subType}'");
-                    break;
-                }
-            }
-
-
-            if (formBlock is null)
-                return BuildShellWithEmptyForm("No form found for partsInteressades");
-
-            var attributes = formBlock["attributes"] as JArray ?? new JArray();
-            // 2) Traducir attributes → componentes Form.io
-            var rootComponents = new List<JObject>();
-            var panelsByKey = new Dictionary<string, JObject>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var a in attributes.OfType<JObject>())
-            {
-                var attributeId = a.Value<int?>("attributeId");
-                var name = a.Value<string>("name") ?? "";
-                var label = a.Value<string>("label") ?? name;
-                var component = a.Value<string>("component") ?? "input"; // legacy UI hint
-                var disabled = a.Value<bool?>("disabled") ?? false;
-
-                // Enriquecer desde attributes_catalog
-                var cat = (attributeId is int aid) ? _catalogs.GetAttributeById(aid) : null;
-                var validations = (cat?["validations"] as JArray)?.Select(x => x.ToString()).ToHashSet(StringComparer.OrdinalIgnoreCase) ?? new HashSet<string>();
-                var referenceData = cat?["referenceData"]?.ToString();
-                var dependencies = cat?["dependencies"] as JObject;
-
-                // Construir el componente Form.io
-                var formioCmp = BuildComponent(name, label, component, disabled, validations, referenceData, attributeId);
-
-                // Visibilidad / disabled desde dependencies
-                ApplyDependencies(formioCmp, dependencies);
-
-                // Paneles: nombres con prefijo "xxx$campo"
-                if (name.Contains('$'))
-                {
-                    var parts = name.Split('$', 2);
-                    var groupKey = parts[0];     // representant | adreca | ...
-                    var childKey = parts[1];
-
-                    // el campo dentro del container debe llevar el key "sufijo"
-                    formioCmp["key"] = childKey;
-
-                    if (!panelsByKey.TryGetValue(groupKey, out var container))
-                    {
-                        container = NewContainer(groupKey, ToTitle(groupKey));
-                        // Regla especial: mostrar "representant" solo si isRepresentant = true
-                        if (string.Equals(groupKey, "representant", StringComparison.OrdinalIgnoreCase))
-                        {
-                            container["customConditional"] = "show = !!data.isRepresentant;";
-                        }
-                        panelsByKey[groupKey] = container;
-                        rootComponents.Add(container);
-                    }
-
-                    var comps = (container["components"] as JArray)!;
-                    comps.Add(formioCmp);
-                }
-                else if (string.Equals(component, "section", StringComparison.OrdinalIgnoreCase))
-                {
-                    // La "section" legacy define el contenedor (p.ej. adreca, representant)
-                    if (!panelsByKey.ContainsKey(name))
-                    {
-                        var container = NewContainer(name, label);
-                        if (string.Equals(name, "representant", StringComparison.OrdinalIgnoreCase))
-                        {
-                            container["customConditional"] = "show = !!data.isRepresentant;";
-                        }
-                        panelsByKey[name] = container;
-                        rootComponents.Add(container);
-                    }
-                }
-                else
-                {
-                    rootComponents.Add(formioCmp);
-                }
-
-            }
-
-            // 3) Construir documento destino (shell + form)
-            return BuildShellWithForm(rootComponents);
+            return root as JObject;
         }
 
-        private static JObject NewPanel(string key, string label) => new JObject
+        // --- CÓDIGOS TARGET (normalizamos valores de selects) ---
+        private static readonly (string Label, string Value)[] RolMap =
         {
-            ["label"] = label,
-            ["key"] = key,
-            ["type"] = "panel",
-            ["input"] = false,
-            ["tableView"] = false,
-            ["components"] = new JArray()
+            ("Infractor", "infractor"),
+            ("Denunciant", "denunciant"),
+            ("Inspector", "inspector"),
+            ("Altres Interessats", "altres"),
         };
 
-        private JObject BuildComponent(
-            string name, string label, string legacyComponent, bool disabled,
-            HashSet<string> validations, string? referenceData, int? attributeId)
+        private static readonly (string Label, string Value)[] TipusPersonaMap =
         {
-            // Decidir tipo destino
-            var type = legacyComponent switch
-            {
-                "select" => "select",
-                "boolean" => "checkbox",
-                "mask" => "textfield",
-                "identityDocument" => "textfield",
-                "panel" => "panel",
-                "section" => "panel",
-                _ => "textfield"
-            };
+            ("Persona física", "fisica"),
+            ("Persona jurídica", "juridica"),
+            ("Organisme", "organisme"),
+            ("Entitat sense personalitat jurídica", "entitat"),
+        };
 
-            var cmp = new JObject
-            {
-                ["label"] = label,
-                ["key"] = name,
-                ["type"] = type,
-                ["input"] = !string.Equals(type, "panel", StringComparison.OrdinalIgnoreCase),
-                ["tableView"] = !string.Equals(type, "panel", StringComparison.OrdinalIgnoreCase),
-                ["validateWhenHidden"] = false
-            };
-
-            if (attributeId is int id)
-            {
-                cmp["properties"] = new JObject
-                {
-                    ["attributeId"] = id
-                };
-            }
-
-            if (disabled) cmp["disabled"] = true;
-
-            // required
-            if (validations.Contains("required"))
-            {
-                cmp["validate"] = new JObject { ["required"] = true };
-            }
-
-            // SELECT: desde referenceData o (caso especial) rol desde configuration
-            if (string.Equals(type, "select", StringComparison.OrdinalIgnoreCase) ||
-                HasReferenceDataForceSelect(name, referenceData))
-            {
-                var values = new JArray();
-
-                if (!string.IsNullOrEmpty(referenceData) && _catalogs.TryGetReferenceValues(referenceData, out var refVals))
-                {
-                    foreach (var (labelV, val) in refVals)
-                        values.Add(new JObject { ["label"] = labelV, ["value"] = val });
-                }
-                else if (string.Equals(name, "rol", StringComparison.OrdinalIgnoreCase))
-                {
-                    foreach (var r in _catalogs.GetRoles())
-                        values.Add(new JObject { ["label"] = r, ["value"] = r });
-                }
-
-                if (values.Count() > 0)
-                {
-                    cmp["type"] = "select";
-                    cmp["data"] = new JObject { ["values"] = values };
-                }
-            }
-
-            return cmp;
-        }
-
-        private static bool HasReferenceDataForceSelect(string name, string? referenceData)
+        // PF (persona física)
+        private static readonly (string Label, string Value)[] TipusDocumentPFMap =
         {
-            // Algunos attributes vienen como type=boolean pero traen referenceData → deben ser select (ej. tipusPersona, idioma)
-            if (!string.IsNullOrEmpty(referenceData)) return true;
-            return false;
-        }
+            ("Número d'identificació estrangers", "nie"),
+            ("Número d'identificació fiscal", "nif"),
+            ("Número identificador per comunitaris", "nic"),
+            ("Passaport", "passaport"),
+            ("Provisional", "provisional"),
+            ("Targeta d'identitat d'estrangers", "tie"),
+            ("No consta", "noconsta"),
+            ("Altres", "altres"),
+            ("Targeta sanitària individual (TSI)", "tsi"),
+        };
 
-        private static void ApplyDependencies(JObject cmp, JObject? dependencies)
+        // PJ/ORG/ENT (jurídica/organisme/entitat)
+        private static readonly (string Label, string Value)[] TipusDocumentPJMap =
         {
-            if (dependencies is null) return;
+            ("Document d'empresa estrangera", "docEmpresaEstrangera"),
+            ("Número d'identificació estrangers", "nie"),
+            ("Número d'entitat estrangera", "nee"),
+            ("Número d'identificació fiscal", "nif"),
+            ("Passaport", "passaport"),
+        };
 
-            // VISIBILITY: ej. ["tipusPersona=1|2|3|4"]
-            var visibility = dependencies["visibility"] as JArray;
-            if (visibility is not null && visibility.Count > 0)
-            {
-                // Por ahora solo soportamos 1 regla simple A=v1|v2|v3...
-                var rule = visibility[0]?.ToString();
-                var (field, op, rawVals) = ParseSimpleRule(rule);
-                if (field is not null && op == "=" && rawVals?.Length > 0)
-                {
-                    var js = $"show = [{string.Join(",", rawVals)}].includes(data.{field});";
-                    cmp["customConditional"] = js;
-                }
-            }
-
-            // DISABLED: ej. ["organismeEACAT=false"]
-            var disabled = dependencies["disabled"] as JArray;
-            if (disabled is not null && disabled.Count > 0)
-            {
-                var rule = disabled[0]?.ToString();
-                if (cmp["properties"] is not JObject props) { props = new JObject(); cmp["properties"] = props; }
-                props["disabledRule"] = rule; // guardamos la regla; más adelante podemos traducirla a Form.io "logic"
-            }
-        }
-
-        private static (string? field, string? op, string[]? values) ParseSimpleRule(string? rule)
+        private static readonly (string Label, string Value)[] GenereMap =
         {
-            // "tipusPersona=1|2|3|4"  -> field=tipusPersona, op="=", values=["1","2","3","4"]
-            if (string.IsNullOrWhiteSpace(rule)) return (null, null, null);
-            var opIdx = rule.IndexOf('=');
-            if (opIdx < 0) return (null, null, null);
-            var field = rule.Substring(0, opIdx).Trim();
-            var values = rule.Substring(opIdx + 1).Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-            return (field, "=", values);
-        }
+            ("Home", "home"),
+            ("Dona", "dona"),
+            ("No consta", "noconsta"),
+            ("Altres", "altres"),
+        };
 
-        private static string ToTitle(string s)
+        private static readonly (string Label, string Value)[] IdiomaMap =
         {
-            if (string.IsNullOrWhiteSpace(s)) return s;
-            return char.ToUpperInvariant(s[0]) + s.Substring(1);
-        }
-
-        private static JObject BuildShellWithEmptyForm(string reason)
-        {
-            var root = BuildShellWithForm(new List<JObject>());
-            root["__warning"] = reason;
-            return root;
-        }
+            ("Català", "cat"),
+            ("Castellà", "cas"),
+            ("Aranès", "aranes"),
+            ("Anglès", "eng"),
+        };
 
         private static JObject BuildShellWithForm(List<JObject> components)
         {
@@ -336,21 +156,753 @@ namespace MigrationTool.Engine.Mapping
             return root;
         }
 
-        private static bool IsNumeric(string s) => int.TryParse(s, out _);
-
-        private static string QuoteIfNeeded(string v)
-            => IsNumeric(v) ? v : $"\"{v}\"";
-
-        private static JObject NewContainer(string key, string label) => new JObject
+        private static JArray ToValuesArray(IEnumerable<(string Label, string Value)> pairs)
         {
-            ["label"] = label,
-            ["key"] = key,
-            ["type"] = "container",
-            ["input"] = true,
-            ["tableView"] = false,
-            ["components"] = new JArray()
-        };
+            var arr = new JArray();
+            foreach (var (l, v) in pairs)
+                arr.Add(new JObject { ["label"] = l, ["value"] = v });
+            return arr;
+        }
 
+        private static JArray FromReferenceDataOrFallback(
+            CatalogStore catalogs,
+            string? referenceId,
+            IEnumerable<(string Label, string Value)> fallback,
+            Func<string, string>? valueNormalizer = null)
+        {
+            // Intenta leer del catálogo; si no, usa fallback.
+            if (!string.IsNullOrWhiteSpace(referenceId) &&
+                catalogs.TryGetReferenceValues(referenceId, out var refVals))
+            {
+                var arr = new JArray();
+                foreach (var (label, rawValue) in refVals)
+                {
+                    var valString = rawValue?.ToString() ?? label;
+                    if (valueNormalizer is not null) valString = valueNormalizer(valString);
+                    arr.Add(new JObject { ["label"] = label, ["value"] = valString });
+                }
+                return arr;
+            }
+
+            // Fallback local
+            return ToValuesArray(fallback);
+        }
+
+        private JObject BuildTargetForm(CatalogStore catalogs)
+        {
+            // 1) TOP ROW (rol, reincident, esTambePersonaDenunciant, tipusPersona)
+            var roles = _catalogs.GetRoles(); // desde configuration.config.roles (strings)
+                                              // mapeamos a valores normalizados (infractor/denunciant/...)
+            var rolValues = new JArray();
+            foreach (var r in roles)
+            {
+                var mapped = RolMap.FirstOrDefault(x =>
+                    string.Equals(x.Label, r, StringComparison.OrdinalIgnoreCase));
+                if (!string.IsNullOrEmpty(mapped.Value))
+                    rolValues.Add(new JObject { ["label"] = mapped.Label, ["value"] = mapped.Value });
+                else
+                    rolValues.Add(new JObject { ["label"] = r, ["value"] = r.ToLowerInvariant() });
+            }
+
+            if (rolValues.Count == 0)
+            {
+                // Fallback hardcoded si no hay roles en configuration
+                foreach (var (l, v) in RolMap)
+                    rolValues.Add(new JObject { ["label"] = l, ["value"] = v });
+            }
+
+            // Tipus persona desde catálogo 'tipusPersona' si existe; normalizamos a fisica/juridica/...
+            var tipusPersonaValues = FromReferenceDataOrFallback(
+                catalogs,
+                "tipusPersona",
+                TipusPersonaMap,
+                valueNormalizer: v =>
+                {
+                    return v switch
+                    {
+                        "1" => "fisica",
+                        "2" => "juridica",
+                        "3" => "organisme",
+                        "4" => "entitat",
+                        _ => v
+                    };
+                }
+            );
+
+            var rowTop = new JObject
+            {
+                ["type"] = "columns",
+                ["key"] = "rowTop",
+                ["columns"] = new JArray
+        {
+            new JObject // Rol
+            {
+                ["width"] = 3,
+                ["components"] = new JArray
+                {
+                    new JObject
+                    {
+                        ["label"] = "Rol",
+                        ["key"] = "rol",
+                        ["type"] = "select",
+                        ["input"] = true,
+                        ["validate"] = new JObject { ["required"] = true },
+                        ["data"] = new JObject { ["values"] = rolValues },
+                        ["searchEnabled"] = false
+                    }
+                }
+            },
+            new JObject // Reincident
+            {
+                ["width"] = 3,
+                ["components"] = new JArray
+                {
+                    new JObject
+                    {
+                        ["label"] = "Reincident",
+                        ["key"] = "reincident",
+                        ["type"] = "checkbox",
+                        ["input"] = true,
+                        ["hidden"] = true,
+                        ["customConditional"] = "show = !!data.rol;"
+                    }
+                }
+            },
+            new JObject // Es també persona denunciant
+            {
+                ["width"] = 3,
+                ["components"] = new JArray
+                {
+                    new JObject
+                    {
+                        ["label"] = "És també persona denunciant",
+                        ["key"] = "esTambePersonaDenunciant",
+                        ["type"] = "checkbox",
+                        ["input"] = true,
+                        ["hidden"] = true,
+                        ["customConditional"] = "show = !!data.rol;"
+                    }
+                }
+            },
+            new JObject // Tipus persona
+            {
+                ["width"] = 3,
+                ["components"] = new JArray
+                {
+                    new JObject
+                    {
+                        ["label"] = "Tipus persona",
+                        ["key"] = "tipusPersona",
+                        ["type"] = "select",
+                        ["input"] = true,
+                        ["validate"] = new JObject { ["required"] = true },
+                        ["data"] = new JObject { ["values"] = tipusPersonaValues },
+                        ["searchEnabled"] = false
+                    }
+                }
+            }
+        }
+            };
+
+            // 2) Persona física
+            var tipusDocumentPFValues = FromReferenceDataOrFallback(
+                catalogs, /*referenceId*/ "tipusDocumentPF", TipusDocumentPFMap);
+
+            var genereValues = FromReferenceDataOrFallback(
+                catalogs, "genere", GenereMap);
+
+            var idiomaValues = FromReferenceDataOrFallback(
+                catalogs, "idiomaComunicacio", IdiomaMap);
+
+            var paisValues = FromReferenceDataOrFallback(
+                catalogs, "paisosIso", Array.Empty<(string Label, string Value)>());
+
+            var panelPF = new JObject
+            {
+                ["type"] = "panel",
+                ["title"] = "Persona física",
+                ["key"] = "panelPersonaFisica",
+                ["conditional"] = new JObject { ["show"] = true, ["when"] = "tipusPersona", ["eq"] = "fisica" },
+                ["components"] = new JArray
+        {
+            // Nom - Primer cognom
+            new JObject
+            {
+                ["type"] = "columns",
+                ["columns"] = new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Nom", ["key"]="nom", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]=true }
+                        }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Primer cognom", ["key"]="primerCognom", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]=true }
+                        }
+                    }}
+                }
+            },
+            // Segon cognom - Tipus document
+            new JObject
+            {
+                ["type"] = "columns",
+                ["columns"] = new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Segon cognom", ["key"]="segonCognom", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Tipus document", ["key"]="tipusDocumentPF", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]=true },
+                            ["data"]= new JObject{ ["values"]= tipusDocumentPFValues },
+                            ["searchEnabled"]= false
+                        }
+                    }}
+                }
+            },
+            // Num ident - País doc - Gènere
+            new JObject
+            {
+                ["type"] = "columns",
+                ["columns"] = new JArray
+                {
+                    new JObject{ ["width"]=4, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Núm. identificació", ["key"]="numIdentificacioPF", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]=true },
+                            ["hidden"]= true,
+                            ["customConditional"]= "show = !!data.tipusDocumentPF;"
+                        }
+                    }},
+                    new JObject{ ["width"]=4, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="País document", ["key"]="paisDocumentPF", ["type"]="select", ["input"]=true,
+                            ["data"]= new JObject{ ["values"]= paisValues },
+                            ["placeholder"]="Selecciona país",
+                            ["searchEnabled"]= true
+                        }
+                    }},
+                    new JObject{ ["width"]=4, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Gènere", ["key"]="genere", ["type"]="select", ["input"]=true,
+                            ["data"]= new JObject{ ["values"]= genereValues },
+                            ["searchEnabled"]= false
+                        }
+                    }}
+                }
+            },
+            // Obligació proc - Preferència
+            new JObject
+            {
+                ["type"]="columns",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Obligació electrònica del procés", ["key"]="obligacioElectProcess", ["type"]="checkbox", ["input"]=true, ["disabled"]= true }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Preferència/obligació electrònica de la persona", ["key"]="preferenciaElect", ["type"]="checkbox", ["input"]=true }
+                    }}
+                }
+            },
+            // Vol email - Email
+            new JObject
+            {
+                ["type"]="columns",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Vol rebre E-mail", ["key"]="volEmailPF", ["type"]="checkbox", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=9, ["components"]= new JArray{
+                        new JObject{ ["label"]="E-mail", ["key"]="emailPF", ["type"]="email", ["input"]=true }
+                    }}
+                }
+            },
+            // Telèfon - Vol SMS - Idioma
+            new JObject
+            {
+                ["type"]="columns",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Telèfon", ["key"]="telefonPF", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Vol rebre SMS", ["key"]="volSmsPF", ["type"]="checkbox", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Idioma", ["key"]="idiomaPF", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= idiomaValues },
+                            ["searchEnabled"]= false
+                        }
+                    }}
+                }
+            }
+        }
+            };
+
+            // 3) Persona jurídica
+            var tipusDocumentPJValues = FromReferenceDataOrFallback(
+                catalogs, "tipusDocumentPJ", TipusDocumentPJMap);
+
+            var panelPJ = new JObject
+            {
+                ["type"] = "panel",
+                ["title"] = "Persona jurídica",
+                ["key"] = "panelPersonaJuridica",
+                ["conditional"] = new JObject { ["show"] = true, ["when"] = "tipusPersona", ["eq"] = "juridica" },
+                ["components"] = new JArray
+        {
+            new JObject // row1
+            {
+                ["type"]="columns", ["key"]="pj_row1",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Raó social", ["key"]="raoSocialPJ", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true } }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Establiment", ["key"]="establimentPJ", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            },
+            new JObject // row2
+            {
+                ["type"]="columns", ["key"]="pj_row2",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Tipus document", ["key"]="tipusDocumentPJ", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= tipusDocumentPJValues },
+                            ["searchEnabled"]= false
+                        }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Núm. identificació", ["key"]="numIdentificacioPJ", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true } }
+                    }}
+                }
+            },
+            new JObject // row3
+            {
+                ["type"]="columns", ["key"]="pj_row3",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="E-mail", ["key"]="emailPJ", ["type"]="email", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Vol rebre E-mail", ["key"]="volEmailPJ", ["type"]="checkbox", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Telèfon", ["key"]="telefonPJ", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            },
+            new JObject // row4
+            {
+                ["type"]="columns", ["key"]="pj_row4",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Vol rebre SMS", ["key"]="volSmsPJ", ["type"]="checkbox", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Idioma", ["key"]="idiomaPJ", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= idiomaValues },
+                            ["searchEnabled"]= false
+                        }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Disposa de Representant jurídic", ["key"]="teRepresentantPJ", ["type"]="checkbox", ["input"]=true }
+                    }}
+                }
+            }
+        }
+            };
+
+            // 4) Organisme
+            var panelORG = new JObject
+            {
+                ["type"] = "panel",
+                ["title"] = "Organisme",
+                ["key"] = "panelOrganisme",
+                ["conditional"] = new JObject { ["show"] = true, ["when"] = "tipusPersona", ["eq"] = "organisme" },
+                ["components"] = new JArray
+        {
+            new JObject
+            {
+                ["type"]="columns", ["key"]="org_row0",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray() },
+                    new JObject{ ["width"]=3, ["components"]= new JArray() },
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Organisme EACAT", ["key"]="organismeEacat", ["type"]="checkbox", ["input"]=true }
+                    }}
+                }
+            },
+            new JObject // row1
+            {
+                ["type"]="columns", ["key"]="org_row1",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Raó social", ["key"]="raoSocialORG", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true } }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Establiment", ["key"]="establimentORG", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            },
+            new JObject // row2
+            {
+                ["type"]="columns", ["key"]="org_row2",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Tipus document", ["key"]="tipusDocumentORG", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= tipusDocumentPJValues },
+                            ["searchEnabled"]= false
+                        }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Núm. identificació", ["key"]="numIdentificacioORG", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true } }
+                    }}
+                }
+            },
+            new JObject // row3
+            {
+                ["type"]="columns", ["key"]="org_row3",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=4, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="País document", ["key"]="paisDocumentORG", ["type"]="select", ["input"]=true,
+                            ["placeholder"]="Selecciona país",
+                            ["data"]= new JObject{ ["values"]= paisValues },
+                            ["searchEnabled"]= true
+                        }
+                    }},
+                    new JObject{ ["width"]=4, ["components"]= new JArray{
+                        new JObject{ ["label"]="Codi INE10", ["key"]="codiINE10", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=4, ["components"]= new JArray{
+                        new JObject{ ["label"]="E-mail", ["key"]="emailORG", ["type"]="email", ["input"]=true }
+                    }}
+                }
+            },
+            new JObject // row4
+            {
+                ["type"]="columns", ["key"]="org_row4",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Vol rebre E-mail", ["key"]="volEmailORG", ["type"]="checkbox", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Telèfon", ["key"]="telefonORG", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Idioma", ["key"]="idiomaORG", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= idiomaValues },
+                            ["searchEnabled"]= false
+                        }
+                    }}
+                }
+            },
+            new JObject // row5
+            {
+                ["type"]="columns", ["key"]="org_row5",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=4, ["components"]= new JArray{
+                        new JObject{ ["label"]="Disposa de Representant jurídic", ["key"]="teRepresentantORG", ["type"]="checkbox", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=8, ["components"]= new JArray() }
+                }
+            }
+        }
+            };
+
+            // 5) Entitat sense personalitat jurídica
+            var panelENT = new JObject
+            {
+                ["type"] = "panel",
+                ["title"] = "Entitat sense personalitat jurídica",
+                ["key"] = "panelEntitat",
+                ["conditional"] = new JObject { ["show"] = true, ["when"] = "tipusPersona", ["eq"] = "entitat" },
+                ["components"] = new JArray
+        {
+            new JObject // row1
+            {
+                ["type"]="columns", ["key"]="ent_row1",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Establiment", ["key"]="establimentENT", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Raó social", ["key"]="raoSocialENT", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true } }
+                    }}
+                }
+            },
+            new JObject // row2
+            {
+                ["type"]="columns", ["key"]="ent_row2",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray() },
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Tipus document", ["key"]="tipusDocumentENT", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= tipusDocumentPJValues },
+                            ["searchEnabled"]= false
+                        }
+                    }}
+                }
+            },
+            new JObject // row3
+            {
+                ["type"]="columns", ["key"]="ent_row3",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Núm. identificació", ["key"]="numIdentificacioENT", ["type"]="textfield", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true } }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="País document", ["key"]="paisDocumentENT", ["type"]="select", ["input"]=true,
+                            ["data"]= new JObject{ ["values"]= paisValues },
+                            ["placeholder"]="Selecciona país",
+                            ["searchEnabled"]= true
+                        }
+                    }}
+                }
+            },
+            new JObject // row4
+            {
+                ["type"]="columns", ["key"]="ent_row4",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="E-mail", ["key"]="emailENT", ["type"]="email", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Vol rebre E-mail", ["key"]="volEmailENT", ["type"]="checkbox", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Telèfon", ["key"]="telefonENT", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            },
+            new JObject // row5
+            {
+                ["type"]="columns", ["key"]="ent_row5",
+                ["columns"]= new JArray
+                {
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Vol rebre SMS", ["key"]="volSmsENT", ["type"]="checkbox", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Idioma", ["key"]="idiomaENT", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= idiomaValues },
+                            ["searchEnabled"]= false
+                        }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Disposa de Representant jurídic", ["key"]="teRepresentantENT", ["type"]="checkbox", ["input"]=true }
+                    }}
+                }
+            }
+        }
+            };
+
+            var panelAdreca = BuildAdrecaPanel(catalogs);
+
+            // 6) Ensamblar los components del FORM
+            var form = new JObject
+            {
+                ["display"] = "form",
+                ["components"] = new JArray { rowTop, panelPF, panelPJ, panelORG, panelENT, panelAdreca }
+            };
+
+            return form;
+        }
+
+        private JObject BuildAdrecaPanel(CatalogStore catalogs)
+        {
+            // Catálogos
+            var tipusViaValues = FromReferenceDataOrFallback(catalogs, "tipusVia", Array.Empty<(string Label, string Value)>());
+            var paisValues = FromReferenceDataOrFallback(catalogs, "paisosIso", Array.Empty<(string Label, string Value)>());
+            var municipiValues = FromReferenceDataOrFallback(catalogs, "municipis", Array.Empty<(string Label, string Value)>());
+            var comarcaValues = FromReferenceDataOrFallback(catalogs, "comarques", Array.Empty<(string Label, string Value)>());
+            var provinciaValues = FromReferenceDataOrFallback(catalogs, "provincies", Array.Empty<(string Label, string Value)>());
+            var codiPostalValues = FromReferenceDataOrFallback(catalogs, "codisPostals", Array.Empty<(string Label, string Value)>());
+
+            return new JObject
+            {
+                ["type"] = "panel",
+                ["title"] = "Adreça",
+                ["key"] = "adrecaPanel",
+                ["description"] = "Adreça part interessada",
+                ["components"] = new JArray
+        {
+            // Row A: Tipus de via (3) + vacío (9)
+            new JObject{
+                ["type"]="columns",
+                ["columns"]= new JArray{
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Tipus de via", ["key"]="tipusVia", ["type"]="select", ["input"]=true,
+                            ["data"]= new JObject{ ["values"]= tipusViaValues },
+                            ["searchEnabled"]= true, ["placeholder"]="Selecciona tipus de via"
+                        }
+                    }},
+                    new JObject{ ["width"]=9, ["components"]= new JArray() }
+                }
+            },
+            // Row B: Nom de via (12)
+            new JObject{
+                ["type"]="columns",
+                ["columns"]= new JArray{
+                    new JObject{ ["width"]=12, ["components"]= new JArray{
+                        new JObject{ ["label"]="Nom de via", ["key"]="nomVia", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            },
+            // Row C: Número via/PK (3) - Polígon industrial (6) - Nau (3)
+            new JObject{
+                ["type"]="columns",
+                ["columns"]= new JArray{
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Número via / PK", ["key"]="numeroVia", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=6, ["components"]= new JArray{
+                        new JObject{ ["label"]="Polígon industrial", ["key"]="poligonIndustrial", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Nau", ["key"]="nau", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            },
+            // Row D: Bloc (3) - Escala (3) - Pis (3) - Porta (3)
+            new JObject{
+                ["type"]="columns",
+                ["columns"]= new JArray{
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Bloc", ["key"]="bloc", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Escala", ["key"]="escala", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Pis", ["key"]="pis", ["type"]="textfield", ["input"]=true }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{ ["label"]="Porta", ["key"]="porta", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            },
+            // Row E: País (3) - Municipi (3) - Comarca* (3) - Província* (3)
+            new JObject{
+                ["type"]="columns",
+                ["columns"]= new JArray{
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="País", ["key"]="pais", ["type"]="select", ["input"]=true,
+                            ["data"]= new JObject{ ["values"]= paisValues },
+                            ["searchEnabled"]= true, ["placeholder"]="Selecciona país"
+                        }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Municipi", ["key"]="municipi", ["type"]="select", ["input"]=true,
+                            ["data"]= new JObject{ ["values"]= municipiValues },
+                            ["searchEnabled"]= true, ["placeholder"]="Selecciona municipi",
+                            ["properties"]= new JObject{ ["dependsOn"]= new JArray("pais") }
+                        }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Comarca", ["key"]="comarca", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= comarcaValues },
+                            ["searchEnabled"]= true, ["placeholder"]="Selecciona comarca",
+                            ["properties"]= new JObject{ ["dependsOn"]= new JArray("municipi") }
+                        }
+                    }},
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Província", ["key"]="provincia", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= provinciaValues },
+                            ["searchEnabled"]= true, ["placeholder"]="Selecciona província",
+                            ["properties"]= new JObject{ ["dependsOn"]= new JArray("municipi","comarca") }
+                        }
+                    }}
+                }
+            },
+            // Row F: Codi Postal* (3) + vacío (9)
+            new JObject{
+                ["type"]="columns",
+                ["columns"]= new JArray{
+                    new JObject{ ["width"]=3, ["components"]= new JArray{
+                        new JObject{
+                            ["label"]="Codi Postal", ["key"]="codiPostal", ["type"]="select", ["input"]=true,
+                            ["validate"]= new JObject{ ["required"]= true },
+                            ["data"]= new JObject{ ["values"]= codiPostalValues },
+                            ["searchEnabled"]= true,
+                            ["properties"]= new JObject{ ["dependsOn"]= new JArray("municipi","comarca","provincia") }
+                        }
+                    }},
+                    new JObject{ ["width"]=9, ["components"]= new JArray() }
+                }
+            },
+            // Row G: Dades complementàries adreça (12)
+            new JObject{
+                ["type"]="columns",
+                ["columns"]= new JArray{
+                    new JObject{ ["width"]=12, ["components"]= new JArray{
+                        new JObject{ ["label"]="Dades complementàries adreça", ["key"]="comentarisAdreca", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            },
+            // Row H: Dades complementàries caràtula impressió (12)
+            new JObject{
+                ["type"]="columns",
+                ["columns"]= new JArray{
+                    new JObject{ ["width"]=12, ["components"]= new JArray{
+                        new JObject{ ["label"]="Dades complementàries caràtula impressió", ["key"]="observacionsCaratula", ["type"]="textfield", ["input"]=true }
+                    }}
+                }
+            }
+        }
+            };
+        }
 
     }
 }
