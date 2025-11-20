@@ -11,6 +11,7 @@ namespace MigrationTool.Engine.Catalogs
         private readonly Dictionary<int, JObject> _attributesById = new();
         private readonly Dictionary<string, JArray> _referenceById = new(StringComparer.OrdinalIgnoreCase);
         private readonly List<string> _roles = new();
+        private readonly JToken _configuration;
 
         public CatalogStore(string attributesCatalogPath, string referenceDataCatalogPath, string configurationPath)
         {
@@ -73,6 +74,7 @@ namespace MigrationTool.Engine.Catalogs
 
             // ===== 3) CONFIGURATION (roles) =====
             var confJson = JToken.Parse(File.ReadAllText(configurationPath));
+            _configuration = confJson;
             var rolesToken = confJson.SelectToken("$.config.roles") ?? confJson.SelectToken("$.roles");
             if (rolesToken is JArray rolesArr)
             {
@@ -133,5 +135,22 @@ namespace MigrationTool.Engine.Catalogs
 
             return item["key"] ?? JValue.CreateNull();
         }
+
+        public JObject? FindConfigAttributeByName(string attributeName)
+        {
+            if (_configuration is null) return null;
+
+            return _configuration
+                .SelectTokens("$.nodes[*].config.forms[*].attributes[*]")
+                .OfType<JObject>()
+                .FirstOrDefault(a =>
+                    string.Equals(
+                        a.Value<string>("name"),
+                        attributeName,
+                        StringComparison.OrdinalIgnoreCase
+                    ));
+        }
+
+
     }
 }

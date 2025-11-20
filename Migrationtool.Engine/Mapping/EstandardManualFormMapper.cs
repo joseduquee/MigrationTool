@@ -188,6 +188,75 @@ namespace MigrationTool.Engine.Mapping
             return ToValuesArray(fallback);
         }
 
+        private JObject? BuildFieldFromConfigAttribute(string attributeName)
+        {
+            // Leemos el atributo de configuration.json
+            var cfgAttr = _catalogs.FindConfigAttributeByName(attributeName);
+            if (cfgAttr == null) return null;
+
+            var label = cfgAttr.Value<string>("label") ?? attributeName;
+            var component = cfgAttr.Value<string>("component");
+            var attributeId = cfgAttr.Value<int?>("attributeId");
+
+            // Mapear tipo legacy -> Form.io
+            var type = component?.ToLowerInvariant() switch
+            {
+                "textarea" => "textarea",
+                "input" => "textfield",
+                "select" => "select",
+                "boolean" => "checkbox",
+                _ => "textfield"
+            };
+
+            var field = new JObject
+            {
+                ["label"] = label,
+                ["key"] = attributeName,
+                ["type"] = type,
+                ["input"] = true,
+                ["tableView"] = true
+            };
+
+            if (attributeId is int id)
+            {
+                // Guardamos attributeId por si lo necesitáis luego
+                field["properties"] = new JObject { ["attributeId"] = id };
+
+                // Usamos el catálogo de attributes para required + referenceData
+                var attrMeta = _catalogs.GetAttributeById(id);
+                var validations = attrMeta?["validations"] as JObject;
+                if (validations?["required"]?.Value<bool>() == true)
+                    field["validate"] = new JObject { ["required"] = true };
+
+                var refId = attrMeta?.Value<string>("referenceData");
+                if (!string.IsNullOrWhiteSpace(refId) &&
+                    _catalogs.TryGetReferenceValues(refId!, out var refVals))
+                {
+                    var values = new JArray();
+                    foreach (var (lbl, val) in refVals)
+                        values.Add(new JObject { ["label"] = lbl, ["value"] = val });
+
+                    field["type"] = "select";
+                    field["data"] = new JObject { ["values"] = values };
+                    field["searchEnabled"] = values.Count > 15;
+                }
+            }
+
+            // Caso especial: textarea Observacions
+            if (string.Equals(component, "textarea", StringComparison.OrdinalIgnoreCase))
+            {
+                field["autoExpand"] = true;
+                field["showCharCount"] = true;
+
+                var validate = field["validate"] as JObject ?? new JObject();
+                validate["maxLength"] = 1000;
+                field["validate"] = validate;
+            }
+
+            return field;
+        }
+
+
         private JObject BuildTargetForm(CatalogStore catalogs)
         {
             // 1) TOP ROW (rol, reincident, esTambePersonaDenunciant, tipusPersona)
@@ -743,12 +812,41 @@ namespace MigrationTool.Engine.Mapping
 
             var panelAdreca = BuildAdrecaPanel(catalogs);
 
+            // Campo Observacions leído desde configuration.json
+            var observacionsField = BuildFieldFromConfigAttribute("observacionsAdreca");
+
+            JObject? rowObservacions = null;
+            if (observacionsField != null)
+            {
+                rowObservacions = new JObject
+                {
+                    ["type"] = "columns",
+                    ["columns"] = new JArray
+        {
+            new JObject
+            {
+                ["width"] = 12,
+                ["components"] = new JArray { observacionsField }
+            }
+        }
+                };
+            }
+
+
             // 6) Ensamblar los components del FORM
+            var components = new JArray { rowTop, panelPF, panelPJ, panelORG, panelENT, panelAdreca };
+            if (rowObservacions != null)
+            {
+                // Lo añadimos justo después del módulo Adreça
+                components.Add(rowObservacions);
+            }
+
             var form = new JObject
             {
                 ["display"] = "form",
-                ["components"] = new JArray { rowTop, panelPF, panelPJ, panelORG, panelENT, panelAdreca }
+                ["components"] = components
             };
+
 
             return form;
         }
